@@ -1,0 +1,42 @@
+{
+   "usuarios":{
+        "porteiro":[
+            {
+                "nome":"",
+                "cpf": "",
+                "chave_privada": ""
+            }
+        ],
+        "inquilino":[
+            {
+                "nome":"",
+                "cpf": "",
+                "apartamento": ""
+            }
+        ],
+        "sindico":[
+            {
+                "nome":"administrador",
+                "cpf": "admin",
+                "chave_privada": "admin"
+            }
+        ]
+    },
+    "encomendas":[
+        {
+            "indentificacao":"",
+            "destinatario":"",
+            "coletor":"",
+            "recebedor":"", 
+            "data_de_recebimento":"",
+            "data_de_retirada":"" 
+        }        
+    ],
+    "apartamentos":[
+        {
+            "numeracao_apartamento":"",
+            "cpf_inquilino":""
+        }
+    ]
+
+}
