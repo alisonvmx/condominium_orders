@@ -1,10 +1,11 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center column">
     <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
+      alt="Cond Orders logo"
+      src="/src/assets/🦆 icon _shopping cart_.svg"
       style="width: 200px; height: 200px"
     >
+    <h6>Acesse nossos Serviços atravês do meu de navegação..</h6>
   </q-page>
 </template>
 
