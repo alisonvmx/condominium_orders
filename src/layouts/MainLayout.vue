@@ -49,6 +49,11 @@ import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
+    title: 'Home',
+    icon: 'home',
+    link: '/#/home',
+  },
+  {
     title: 'Encomendas',
     icon: 'school',
     link: 'https://quasar.dev',
@@ -66,7 +71,7 @@ const linksList = [
   {
     title: 'Controle De Usuários',
     icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
+    link: '/#/users',
   },
   {
     title: 'Controle De Apartamentos',
