@@ -57,11 +57,5 @@ const options = ref(['inquilino', 'sindico', 'porteiro']);
 const select = ref(options.value[0]);
 const text = ref();
 const password = ref();
-// eslint-disable-next-line no-console
-console.log(select.value);
-// eslint-disable-next-line no-console
-console.log(text.value);
-// eslint-disable-next-line no-console
-console.log(password.value);
 
 </script>
