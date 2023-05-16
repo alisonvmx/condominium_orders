@@ -2,28 +2,37 @@
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="name" label="Name" class="q-mb-md" />
-      <q-input v-model="email" label="Email" class="q-mb-md" />
-      <q-input v-model="password" label="Password" type="password" class="q-mb-md" />
-      <q-select v-model="gender" :options="genders" label="Gender" class="q-mb-md" />
-      <q-btn type="submit" label="Submit" class="q-mt-md" />
+      <q-input v-model="surname" label="Sobrenome" class="q-mb-md" />
+      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
+      <q-input
+        v-model="phone"
+        label="Telefone"
+        placeholder="(00) 0000-0000"
+        mask="(##) # ####-####"
+        class="q-mb-md"
+      />
+      <q-input v-model="email" label="E-mail" placeholder="example@email.com" class="q-mb-md" />
+      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
 </template>
 
 <script>
+import { VueMaskDirective } from 'vue-the-mask';
+
 export default {
   name: 'FormPage',
-
+  directives: { mask: VueMaskDirective },
   data() {
     return {
       name: '',
       email: '',
       password: '',
-      gender: '',
-      genders: [
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' },
+      group: '',
+      groups: [
+        { label: 'inquilino', value: 'inquilino' },
+        { label: 'sindico', value: 'sindico' },
+        { label: 'porteiro', value: 'porteiro' },
       ],
     };
   },

@@ -9,13 +9,13 @@
       <template v-slot:top-right>
         <q-btn label="Novo" icon="add" color="primary" to="/users/create" replace/>
       </template>
-      <template v-slot:body-cell-actions="props">
+      <template v-slot:body-cell-actions>
         <q-btn
           flat
           round
           dense
           icon="edit"
-          @click="editItem(props.row)"
+          @click="openModal"
           class="q-ml-sm"
         />
         <q-btn
@@ -23,16 +23,34 @@
           round
           dense
           icon="delete"
-          @click="deleteItem(props.row)"
+          @click="openModal"
           class="q-ml-sm"
         />
       </template>
     </q-table>
   </div>
+  <div>
+    <q-dialog v-model="showModal">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Deletar usuário</div>
+
+        </q-card-section>
+        <q-card-section>
+          <q-card-main>
+            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
+          </q-card-main>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="red" label="Submit" @click="closeModal" />
+          <q-btn color="primary" label="Close" @click="closeModal" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
-
 function formatPhoneNumber(phoneNumberString) {
   const cleaned = (`${phoneNumberString}`).replace(/\D/g, '');
   const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
@@ -130,6 +148,19 @@ export default {
       columns,
       rows,
     };
+  },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
   },
 };
 </script>
