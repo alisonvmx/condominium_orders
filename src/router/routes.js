@@ -9,6 +9,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: '/users', component: () => import('pages/userPage.vue') },
+      { path: '/users/create', component: () => import('pages/form/FormUserPage.vue') },
     ],
   },
   // Always leave this as last one,

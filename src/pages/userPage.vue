@@ -5,137 +5,141 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
-    />
+    >
+      <template v-slot:top-right>
+        <q-btn label="Novo" icon="add" color="primary" to="/users/create" replace/>
+      </template>
+      <template v-slot:body-cell-actions>
+        <q-btn
+          flat
+          round
+          dense
+          icon="edit"
+          @click="openModal"
+          class="q-ml-sm"
+        />
+        <q-btn
+          flat
+          round
+          dense
+          icon="delete"
+          @click="openModal"
+          class="q-ml-sm"
+        />
+      </template>
+    </q-table>
+  </div>
+  <div>
+    <q-dialog v-model="showModal">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Deletar usuário</div>
+
+        </q-card-section>
+        <q-card-section>
+          <q-card-main>
+            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
+          </q-card-main>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="red" label="Submit" @click="closeModal" />
+          <q-btn color="primary" label="Close" @click="closeModal" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
+function formatPhoneNumber(phoneNumberString) {
+  const cleaned = (`${phoneNumberString}`).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
+  if (match) {
+    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  }
+  return null;
+}
+
+export const deleteItem = async (phoneNumberString) => {
+  await console.log(phoneNumberString);
+};
+export const editItem = async (phoneNumberString) => {
+  await console.log(phoneNumberString);
+};
+
 const columns = [
   {
     name: 'name',
     required: true,
-    label: 'Dessert (100g serving)',
+    label: 'Nome',
     align: 'left',
     field: (row) => row.name,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true,
+    name: 'surname',
+    required: true,
+    label: 'Sobrenome',
+    align: 'left',
+    field: (row) => row.surname,
+    format: (val) => `${val}`,
+    sortable: true,
   },
   {
-    name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true,
+    name: 'group',
+    required: true,
+    label: 'Grupo',
+    align: 'left',
+    field: (row) => row.group,
+    format: (val) => `${val}`,
+    sortable: true,
   },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
   {
-    name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+    name: 'phone',
+    required: true,
+    label: 'Telefone',
+    align: 'left',
+    field: (row) => row.phone,
+    format: (val) => formatPhoneNumber(val),
+    sortable: true,
   },
   {
-    name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+    name: 'email',
+    required: true,
+    label: 'Email',
+    align: 'left',
+    field: 'email',
+    sortable: true,
   },
+  {
+    name: 'actions', field: 'actions', label: 'actions', align: 'left',
+  },
+
 ];
 const rows = [
   {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%',
+    name: 'pessoa',
+    surname: 'teste',
+    group: 'morador',
+    phone: 71991784816,
+    email: 'john.doe@example.com',
   },
   {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%',
+    name: 'pessoa',
+    surname: 'teste2',
+    group: 'morador',
+    phone: '(71) 9 9178-4816',
+    email: 'john.doe@example.com',
+
   },
   {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%',
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%',
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%',
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%',
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%',
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%',
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%',
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%',
+    name: 'pessoa',
+    surname: 'teste3',
+    group: 'morador',
+    phone: '(71) 9 9178-4816',
+    email: 'john.doe@example.com',
+
   },
 ];
 export default {
@@ -144,6 +148,19 @@ export default {
       columns,
       rows,
     };
+  },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
   },
 };
 </script>
