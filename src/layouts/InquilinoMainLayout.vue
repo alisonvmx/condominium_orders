@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Cond Orders
+          Cond°Orders
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -51,37 +51,22 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/home',
+    link: '/#/Inquilino',
   },
   {
     title: 'Encomendas',
     icon: 'school',
-    link: 'https://quasar.dev',
+    link: '/#/Encomendas',
   },
   {
     title: 'Historico',
     icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Controle De Encomendas',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Controle De Usuários',
-    icon: 'record_voice_over',
-    link: '/#/users',
-  },
-  {
-    title: 'Controle De Apartamentos',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
+    link: '/#/Historico',
   },
 ];
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: 'InquilinoMainLayout',
 
   components: {
     EssentialLink,

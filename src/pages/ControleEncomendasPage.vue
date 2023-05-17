@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      title="Controle de usuários"
+      title="Controle de Encomendas"
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -33,12 +33,12 @@
     <q-dialog v-model="showModal">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Deletar usuário</div>
+          <div class="text-h6">Deletar Encomenda</div>
 
         </q-card-section>
         <q-card-section>
           <q-card-main>
-            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
+            <div class="text-h6">Você tem certeza que irá deletar essa Encomenda</div>
           </q-card-main>
         </q-card-section>
         <q-card-actions aligm="right">
@@ -51,67 +51,60 @@
 </template>
 
 <script>
-function formatPhoneNumber(phoneNumberString) {
-  const cleaned = (`${phoneNumberString}`).replace(/\D/g, '');
-  const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
-  if (match) {
-    return `(${match[1]}) ${match[2]}-${match[3]}`;
-  }
-  return null;
-}
-
-export const deleteItem = async (phoneNumberString) => {
-  // eslint-disable-next-line no-console
-  await console.log(phoneNumberString);
-};
-export const editItem = async (phoneNumberString) => {
-  // eslint-disable-next-line no-console
-  await console.log(phoneNumberString);
-};
 
 const columns = [
   {
-    name: 'name',
+    name: 'identificacao',
     required: true,
-    label: 'Nome',
+    label: 'Identificação',
     align: 'left',
-    field: (row) => row.name,
+    field: (row) => row.identificacao,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'surname',
+    name: 'destinatario',
     required: true,
-    label: 'Sobrenome',
+    label: 'Destinatario',
     align: 'left',
-    field: (row) => row.surname,
+    field: (row) => row.destinatario,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'group',
+    name: 'coletor',
     required: true,
-    label: 'Grupo',
+    label: 'Coletor',
     align: 'left',
-    field: (row) => row.group,
+    field: (row) => row.coletor,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'phone',
+    name: 'recebedor',
     required: true,
-    label: 'Telefone',
+    label: 'Recebedor',
     align: 'left',
-    field: (row) => row.phone,
-    format: (val) => formatPhoneNumber(val),
+    field: (row) => row.recebedor,
+    format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'email',
+    name: 'dataRecebimento',
     required: true,
-    label: 'Email',
+    label: 'Data Recebimento',
     align: 'left',
-    field: 'email',
+    field: (row) => row.dataRecebimento,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: 'dataRetirada',
+    required: true,
+    label: 'Data Retirada',
+    align: 'left',
+    field: (row) => row.dataRetirada,
+    format: (val) => `${val}`,
     sortable: true,
   },
   {
@@ -121,27 +114,20 @@ const columns = [
 ];
 const rows = [
   {
-    name: 'pessoa',
-    surname: 'teste',
-    group: 'morador',
-    phone: 71991784816,
-    email: 'john.doe@example.com',
+    identificacao: 'caixa',
+    destinatario: 'apartemento1',
+    coletor: 'cpf-porteiro',
+    recebedor: 'cpf-inquilino',
+    dataRecebimento: '10/03/2022',
+    dataRetirada: '20/03/2022',
   },
   {
-    name: 'pessoa',
-    surname: 'teste2',
-    group: 'morador',
-    phone: '(71) 9 9178-4816',
-    email: 'john.doe@example.com',
-
-  },
-  {
-    name: 'pessoa',
-    surname: 'teste3',
-    group: 'morador',
-    phone: '(71) 9 9178-4816',
-    email: 'john.doe@example.com',
-
+    identificacao: 'roupa',
+    destinatario: 'apartemento2',
+    coletor: 'cpf-porteiro',
+    recebedor: 'cpf-inquilino',
+    dataRecebimento: '25/02/2022',
+    dataRetirada: '01/03/2022',
   },
 ];
 export default {
