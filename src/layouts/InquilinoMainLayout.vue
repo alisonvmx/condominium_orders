@@ -51,7 +51,7 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/Inquilino',
+    link: '/#/inquilino',
   },
   {
     title: 'Encomendas',
@@ -67,7 +67,6 @@ const linksList = [
 
 export default defineComponent({
   name: 'InquilinoMainLayout',
-
   components: {
     EssentialLink,
   },

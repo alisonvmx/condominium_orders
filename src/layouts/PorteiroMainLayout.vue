@@ -51,7 +51,7 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/Porteiro',
+    link: '/#/porteiro',
   },
   {
     title: 'Encomendas',

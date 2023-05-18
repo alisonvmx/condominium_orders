@@ -4,7 +4,7 @@ const routes = [
     component: () => import('pages/Login.vue'),
   },
   {
-    path: '/home',
+    path: '/sindico',
     component: () => import('layouts/SindicoMainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/HomePage.vue') },
@@ -17,7 +17,7 @@ const routes = [
     ],
   },
   {
-    path: '/Inquilino',
+    path: '/inquilino',
     component: () => import('layouts/InquilinoMainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/HomePage.vue') },
@@ -26,7 +26,7 @@ const routes = [
     ],
   },
   {
-    path: '/Porteiro',
+    path: '/porteiro',
     component: () => import('layouts/PorteiroMainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/HomePage.vue') },

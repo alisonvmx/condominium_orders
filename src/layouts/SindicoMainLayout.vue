@@ -51,7 +51,7 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/Home',
+    link: '/#/sindico',
   },
   {
     title: 'Encomendas',

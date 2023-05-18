@@ -2,17 +2,32 @@
    "usuarios":{
         "porteiro":[
             {
-                "nome":"",
-                "cpf": "",
-                "chave_privada": ""
+                "nome":"porteiro",
+                "cpf": "porteiro",
+                "chave_privada": "porteiro"
             }
         ],
         "inquilino":[
             {
-                "nome":"",
-                "cpf": "",
-                "apartamento": ""
-            }
+                "nome":"Julio",
+                "cpf": "00011122200",
+                "apartamento": "102b"
+            },
+            {
+              "nome":"rodrigo",
+              "cpf": "11122233300",
+              "apartamento": "103b"
+             },
+            {
+            "nome":"jan",
+            "cpf": "33344455500",
+            "apartamento": "104b"
+            },
+            {
+              "nome":"jao",
+              "cpf": "11",
+              "apartamento": "22"
+              }
         ],
         "sindico":[
             {
@@ -27,10 +42,10 @@
             "indentificacao":"",
             "destinatario":"",
             "coletor":"",
-            "recebedor":"", 
+            "recebedor":"",
             "data_de_recebimento":"",
-            "data_de_retirada":"" 
-        }        
+            "data_de_retirada":""
+        }
     ],
     "apartamentos":[
         {

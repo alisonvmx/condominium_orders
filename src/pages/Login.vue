@@ -9,16 +9,16 @@
       <p>cond orders</p>
     </q-section>
 
-    <q-form class="flex justify-center items-center column">
+    <q-form class="flex justify-center items-center column" @submit.prevent="login">
       <q-input class="q-mb-xs" rounded outlined bg-color="white" color="black"
-      v-model="text" label="Usuário" >
+      v-model="user.email" label="Usuário" >
         <template #prepend>
           <q-avatar>
             <img src="/src/assets/user.svg">
           </q-avatar>
         </template>
       </q-input>
-      <q-input rounded outlined bg-color="white" color="black" v-model="password"
+      <q-input rounded outlined bg-color="white" color="black" v-model="user.password"
       label="Chave de Acesso" type="password">
         <template #prepend>
           <q-avatar>
@@ -31,7 +31,7 @@
           Perfil de usuário
        </p>
       <q-section class="flex justify-center items-center row">
-        <q-select rounded outlined  v-model="select" :options="options"
+        <q-select rounded outlined  v-model="user.perfil" :options="options"
         style="text-transform: uppercase; width: 152px;"
         bg-color="white">
           <template v-slot:append>
@@ -40,7 +40,8 @@
             </q-avatar>
           </template>
         </q-select>
-        <q-btn round style="background-color: white; margin-left: 10px;" type="submit">
+        <q-btn round style="background-color: white; margin-left: 10px;"
+        type="submit" onclick="">
           <q-avatar size = "42px">
             <img src = "/src/assets/logar.jpg">
           </q-avatar>
@@ -51,17 +52,62 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const options = ref(['inquilino', 'sindico', 'porteiro']);
-const select = ref(options.value[0]);
-const text = ref();
-const password = ref();
-// eslint-disable-next-line no-console
-console.log(select.value);
-// eslint-disable-next-line no-console
-console.log(text.value);
-// eslint-disable-next-line no-console
-console.log(password.value);
 
+const user = reactive({
+  email: '',
+  password: '',
+  perfil: options.value[0],
+});
+async function getUser() {
+  try {
+    const tipoUsuario = user.perfil;
+    if (tipoUsuario === 'inquilino') {
+      const response = await axios.get('http://localhost:3000/usuarios');
+      const usuarios = response.data.inquilino;
+
+      usuarios.forEach((usuario) => {
+        if (usuario.cpf === user.email && usuario.apartamento === user.password) {
+          router.replace('/inquilino');
+        }
+      });
+    }
+    if (tipoUsuario === 'porteiro') {
+      const response = await axios.get('http://localhost:3000/usuarios');
+      const usuarios = response.data.porteiro;
+
+      usuarios.forEach((usuario) => {
+        if (usuario.cpf === user.email && usuario.chave_privada === user.password) {
+          router.replace('/porteiro');
+        }
+      });
+    }
+    if (tipoUsuario === 'sindico') {
+      const response = await axios.get('http://localhost:3000/usuarios');
+      const usuarios = response.data.sindico;
+
+      usuarios.forEach((usuario) => {
+        if (usuario.cpf === user.email && usuario.chave_privada === user.password) {
+          router.replace('/sindico');
+        }
+      });
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
+}
+async function login() {
+  try {
+    getUser();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('erro ao conectar com a api');
+  }
+}
 </script>
