@@ -69,30 +69,29 @@ async function getUser() {
     const tipoUsuario = user.perfil;
     if (tipoUsuario === 'inquilino') {
       const response = await axios.get('http://localhost:3000/usuarios');
-      const usuarios = response.data.inquilino;
-
+      const usuarios = response.data;
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.apartamento === user.password) {
+        if (usuario.cpf === user.email && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
           router.replace('/inquilino');
         }
       });
     }
     if (tipoUsuario === 'porteiro') {
       const response = await axios.get('http://localhost:3000/usuarios');
-      const usuarios = response.data.porteiro;
+      const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.chave_privada === user.password) {
+        if (usuario.cpf === user.email && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
           router.replace('/porteiro');
         }
       });
     }
     if (tipoUsuario === 'sindico') {
       const response = await axios.get('http://localhost:3000/usuarios');
-      const usuarios = response.data.sindico;
+      const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.chave_privada === user.password) {
+        if (usuario.cpf === user.email && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
           router.replace('/sindico');
         }
       });

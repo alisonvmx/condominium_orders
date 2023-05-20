@@ -9,9 +9,17 @@ yarn
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### inicar o projeto
 ```bash
-quasar dev
+yarn dev
+
+
+```
+### inicar a api
+```bash
+yarn startApi
+
+
 ```
 
 

@@ -51,32 +51,32 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/porteiro',
+    link: '/porteiro',
   },
   {
     title: 'Encomendas',
     icon: 'school',
-    link: '/#/Encomendas',
+    link: '/porteiro/Encomendas',
   },
   {
     title: 'Historico',
     icon: 'code',
-    link: '/#/Historico',
+    link: '/porteiro/Historico',
   },
   {
     title: 'Controle De Encomendas',
     icon: 'chat',
-    link: '/#/ControleEncomendas',
+    link: '/porteiro/ControleEncomendas',
   },
   {
     title: 'Controle De Usuários',
     icon: 'record_voice_over',
-    link: '/#/users',
+    link: '/porteiro/users',
   },
   {
     title: 'Controle De Apartamentos',
     icon: 'rss_feed',
-    link: '/#/ControleApartamentos',
+    link: '/porteiro/ControleApartamentos',
   },
 ];
 

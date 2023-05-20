@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Controle de usuários"
-      :rows="rows"
+      :rows="usuarios"
       :columns="columns"
       row-key="name"
     >
@@ -51,6 +51,11 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
+let usuarios;
+
 function formatPhoneNumber(phoneNumberString) {
   const cleaned = (`${phoneNumberString}`).replace(/\D/g, '');
   const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
@@ -119,36 +124,15 @@ const columns = [
   },
 
 ];
-const rows = [
-  {
-    name: 'pessoa',
-    surname: 'teste',
-    group: 'morador',
-    phone: 71991784816,
-    email: 'john.doe@example.com',
-  },
-  {
-    name: 'pessoa',
-    surname: 'teste2',
-    group: 'morador',
-    phone: '(71) 9 9178-4816',
-    email: 'john.doe@example.com',
 
-  },
-  {
-    name: 'pessoa',
-    surname: 'teste3',
-    group: 'morador',
-    phone: '(71) 9 9178-4816',
-    email: 'john.doe@example.com',
-
-  },
-];
 export default {
+  mounted() {
+    this.chamarRotaBackend();
+  },
   setup() {
     return {
       columns,
-      rows,
+      usuarios,
     };
   },
   data() {
@@ -162,6 +146,20 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+    async chamarRotaBackend() {
+      await axios.get('http://localhost:3000/posts')
+        .then((response) => {
+          usuarios = response?.data?.inquilino;
+        })
+        .catch((error) => {
+          if (!error.response) {
+            // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+            console.log(error.response.data.message);
+          }
+        });
     },
   },
 };

@@ -51,32 +51,32 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/sindico',
+    link: '/sindico',
   },
   {
     title: 'Encomendas',
     icon: 'school',
-    link: '/#/Encomendas',
+    link: '/sindico/Encomendas',
   },
   {
     title: 'Historico',
     icon: 'code',
-    link: '/#/Historico',
+    link: '/sindico/Historico',
   },
   {
     title: 'Controle De Encomendas',
     icon: 'chat',
-    link: '/#/ControleEncomendas',
+    link: '/sindico/ControleEncomendas',
   },
   {
     title: 'Controle De Usuários',
     icon: 'record_voice_over',
-    link: '/#/users',
+    link: '/sindico/users',
   },
   {
     title: 'Controle De Apartamentos',
     icon: 'rss_feed',
-    link: '/#/ControleApartamentos',
+    link: '/sindico/ControleApartamentos',
   },
 ];
 

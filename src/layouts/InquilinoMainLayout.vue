@@ -51,17 +51,17 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/#/inquilino',
+    link: '/inquilino',
   },
   {
     title: 'Encomendas',
     icon: 'school',
-    link: '/#/Encomendas',
+    link: '/inquilino/Encomendas',
   },
   {
     title: 'Historico',
     icon: 'code',
-    link: '/#/Historico',
+    link: '/inquilino/Historico',
   },
 ];
 
