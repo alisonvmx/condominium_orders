@@ -1,21 +1,24 @@
+<!-- eslint-disable vue/valid-v-slot -->
+<!-- eslint-disable max-len -->
 <template>
   <div class="q-pa-md">
     <q-table
       title="Controle de usuários"
       :rows="usuarios"
       :columns="columns"
-      row-key="name"
+      row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn label="Novo" icon="add" color="primary" to="/users/create" replace/>
+        <q-btn label="Novo" icon="add" color="primary" to="/sindico/users/create" replace/>
       </template>
-      <template v-slot:body-cell-actions>
+      <template v-slot:body-cell-actions="props">
         <q-btn
           flat
           round
           dense
           icon="edit"
-          @click="openModal"
+          to="/sindico/users/create"
+          replace
           class="q-ml-sm"
         />
         <q-btn
@@ -23,7 +26,7 @@
           round
           dense
           icon="delete"
-          @click="openModal"
+          @click="openModal(props.row)"
           class="q-ml-sm"
         />
       </template>
@@ -38,12 +41,12 @@
         </q-card-section>
         <q-card-section>
           <q-card-main>
-            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
+            <div class="text-h6">Você tem certeza que irá deletar esse usuário de id {{selectedValue}}</div>
           </q-card-main>
         </q-card-section>
-        <q-card-actions aligm="right">
-          <q-btn color="red" label="Submit" @click="closeModal" />
-          <q-btn color="primary" label="Close" @click="closeModal" />
+        <q-card-actions align="right">
+          <q-btn color="red" label="deletar" @click="(props.row)" />
+          <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -54,16 +57,16 @@
 
 import axios from 'axios';
 
-export const deleteItem = async (phoneNumberString) => {
-  // eslint-disable-next-line no-console
-  await console.log(phoneNumberString);
-};
-export const editItem = async (phoneNumberString) => {
-  // eslint-disable-next-line no-console
-  await console.log(phoneNumberString);
-};
-
 const columns = [
+  {
+    name: 'id',
+    required: true,
+    label: 'id',
+    align: 'left',
+    field: (row) => row.id,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
   {
     name: 'name',
     required: true,
@@ -101,14 +104,30 @@ export default {
     return {
       usuarios: [],
       showModal: false,
+      selectedValue: Number,
     };
   },
   methods: {
-    openModal() {
+    openModal(value) {
+      console.log(value.id);
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+    },
+    userDelete(id = this.selectedValue) {
+      axios.delete(`http://localhost:3000/usuarios/${id}`)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          if (!error.response) {
+            // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+            console.log(error.response.data.message);
+          }
+        });
     },
     async chamarRotaBackend() {
       await axios.get('http://localhost:3000/usuarios')

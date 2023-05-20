@@ -1,55 +1,75 @@
 {
-    "usuarios":[
-            {
-                "nome":"porteiro",
-                "cpf": "porteiro",
-                "chave_privada": "porteiro",
-                "type_user": "porteiro"
-            },
-            {
-                "nome":"Julio",
-                "cpf": "00011122200",
-                "apartamento": "102b",
-                "type_user": "porteiro"
-            },
-            {
-                "nome":"rodrigo",
-                "cpf": "11122233300",
-                "apartamento": "103b",
-                "type_user": "inquilino"
-            },
-            {
-                "nome":"jan",
-                "cpf": "33344455500",
-                "apartamento": "104b",
-                "type_user": "sindico"
-            },
-            {
-                "nome":"administrador",
-                "cpf": "admin",
-                "chave_privada": "admin"
-            }
-        ],
-    "encomendas":[
-        {
-            "indentificacao":"",
-            "destinatario":"",
-            "coletor":"",
-            "recebedor":"",
-            "data_de_recebimento":"",
-            "data_de_retirada":""
-        }
-    ],
-    "apartamentos":[
-        {
-            "numeracao_apartamento":"",
-            "cpf_inquilino":""
-        }
-    ], 
-    "posts": [
-        { "id": 1, "title": "Post 1" },
-        { "id": 2, "title": "Post 2" },
-        { "id": 3, "title": "Post 3" }
-    ]
-
+  "usuarios": [
+    {
+      "nome": "porteiro",
+      "cpf": "porteiro",
+      "chave_privada": "porteiro",
+      "type_user": "porteiro"
+    },
+    {
+      "nome": "Julio",
+      "cpf": "00011122200",
+      "apartamento": "102b",
+      "type_user": "porteiro"
+    },
+    {
+      "nome": "rodrigo",
+      "cpf": "11122233300",
+      "apartamento": "103b",
+      "type_user": "inquilino"
+    },
+    {
+      "nome": "jan",
+      "cpf": "33344455500",
+      "apartamento": "104b",
+      "type_user": "sindico"
+    },
+    {
+      "nome": "administrador",
+      "cpf": "admin",
+      "chave_privada": "admin"
+    },
+    {
+      "id": 1042,
+      "group": "inquilino",
+      "nome": "teste",
+      "apartamento": "123b"
+    },
+    {
+      "id": 2239,
+      "type_user": "inquilino",
+      "nome": "teste",
+      "apartamento": "1231"
+    }
+  ],
+  "encomendas": [
+    {
+      "indentificacao": "",
+      "destinatario": "",
+      "coletor": "",
+      "recebedor": "",
+      "data_de_recebimento": "",
+      "data_de_retirada": ""
+    }
+  ],
+  "apartamentos": [
+    {
+      "numeracao_apartamento": "",
+      "cpf_inquilino": ""
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Post 1"
+    },
+    {
+      "id": 2,
+      "title": "Post 2"
+    },
+    {
+      "id": 3,
+      "title": "Post 3"
+    }
+  ]
 }
