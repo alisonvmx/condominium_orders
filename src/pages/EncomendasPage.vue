@@ -17,7 +17,7 @@
   */
 
 const columns = [
-  { name: 'codigo', field: 'codigo', label: 'Codigo' },
+  { name: 'Apartamento', field: 'apartamento', label: 'Apartamento' },
   { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
   { name: 'recebedor', field: 'recebedor', label: 'Recebedor' },
   { name: 'data_de_recebimento', field: 'data_de_recebimento', label: 'Data de Recebimento' },
@@ -25,13 +25,13 @@ const columns = [
 
 const rows = [
   {
-    codigo: '1',
+    apartamento: '103B',
     identificacao: 'produto Kabum',
     recebedor: 'janclaudio',
     data_de_recebimento: '10/01/2023',
   },
   {
-    codigo: '2',
+    apartamento: '105B',
     identificacao: 'Produto Shopiee',
     recebedor: 'Marcos José',
     data_de_recebimento: '09/01/2023',
