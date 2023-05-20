@@ -71,7 +71,7 @@ const linksList = [
   {
     title: 'Controle De Usuários',
     icon: 'record_voice_over',
-    link: '/sindico/users',
+    link: '/sindico/ControleUsuarios',
   },
   {
     title: 'Controle De Apartamentos',

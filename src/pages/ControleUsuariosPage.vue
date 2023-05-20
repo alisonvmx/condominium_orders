@@ -9,7 +9,7 @@
       row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn label="Novo" icon="add" color="primary" to="/sindico/users/create" replace/>
+        <q-btn label="Novo" icon="add" color="primary" to="/sindico/ControleUsuarios/create" replace/>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-btn
@@ -17,7 +17,7 @@
           round
           dense
           icon="edit"
-          to="/sindico/users/create"
+          to="/sindico/ControleUsuarios/create"
           replace
           class="q-ml-sm"
         />
@@ -109,6 +109,7 @@ export default {
   },
   methods: {
     openModal(value) {
+      // eslint-disable-next-line no-console
       console.log(value.id);
       this.showModal = true;
     },
@@ -118,6 +119,7 @@ export default {
     userDelete(id = this.selectedValue) {
       axios.delete(`http://localhost:3000/usuarios/${id}`)
         .then((response) => {
+          // eslint-disable-next-line no-console
           console.log(response);
         })
         .catch((error) => {
@@ -125,6 +127,7 @@ export default {
             // network error
             this.errorStatus = 'Error: Network Error';
           } else {
+            // eslint-disable-next-line no-console
             console.log(error.response.data.message);
           }
         });
