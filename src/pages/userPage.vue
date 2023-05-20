@@ -120,6 +120,7 @@ export default {
             // network error
             this.errorStatus = 'Error: Network Error';
           } else {
+            // eslint-disable-next-line no-console
             console.log(error.response.data.message);
           }
         });

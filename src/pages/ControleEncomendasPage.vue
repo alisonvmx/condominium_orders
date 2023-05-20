@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Controle de Encomendas"
-      :rows="rows"
+      :rows="usuarios"
       :columns="columns"
       row-key="name"
     >
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 const columns = [
   {
@@ -90,20 +91,20 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'dataRecebimento',
+    name: 'data_de_recebimento',
     required: true,
     label: 'Data Recebimento',
     align: 'left',
-    field: (row) => row.dataRecebimento,
+    field: (row) => row.data_de_recebimento,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'dataRetirada',
+    name: 'data_de_retirada',
     required: true,
     label: 'Data Retirada',
     align: 'left',
-    field: (row) => row.dataRetirada,
+    field: (row) => row.data_de_retirada,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -112,33 +113,19 @@ const columns = [
   },
 
 ];
-const rows = [
-  {
-    identificacao: 'caixa',
-    destinatario: 'apartemento1',
-    coletor: 'cpf-porteiro',
-    recebedor: 'cpf-inquilino',
-    dataRecebimento: '10/03/2022',
-    dataRetirada: '20/03/2022',
-  },
-  {
-    identificacao: 'roupa',
-    destinatario: 'apartemento2',
-    coletor: 'cpf-porteiro',
-    recebedor: 'cpf-inquilino',
-    dataRecebimento: '25/02/2022',
-    dataRetirada: '01/03/2022',
-  },
-];
+
 export default {
+  beforeMount() {
+    this.chamarRotaBackend();
+  },
   setup() {
     return {
       columns,
-      rows,
     };
   },
   data() {
     return {
+      usuarios: [],
       showModal: false,
     };
   },
@@ -149,6 +136,22 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+    async chamarRotaBackend() {
+      await axios.get('http://localhost:3000/encomendas')
+        .then((response) => {
+          this.usuarios = response?.data;
+        })
+        .catch((error) => {
+          if (!error.response) {
+          // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+          // eslint-disable-next-line no-console
+            console.log(error.response.data.message);
+          }
+        });
+    },
   },
+
 };
 </script>

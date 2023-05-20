@@ -1,55 +1,72 @@
 {
     "usuarios":[
             {
-                "nome":"porteiro",
-                "cpf": "porteiro",
-                "chave_privada": "porteiro",
+                "id": "1",
+                "nome":"claudio",
+                "cpf": "05405305200",
+                "chave_privada": "12345678",
                 "type_user": "porteiro"
             },
             {
+                "id": "2",
                 "nome":"Julio",
                 "cpf": "00011122200",
-                "apartamento": "102b",
-                "type_user": "porteiro"
-            },
-            {
-                "nome":"rodrigo",
-                "cpf": "11122233300",
                 "apartamento": "103b",
                 "type_user": "inquilino"
             },
             {
-                "nome":"jan",
-                "cpf": "33344455500",
-                "apartamento": "104b",
+                "id": "3",
+                "nome":"rodrigo",
+                "cpf": "11122233300",
+                "chave_privada": "1234qwer",
                 "type_user": "sindico"
             },
             {
+
+                "id": "4",
+                "nome":"jan",
+                "cpf": "33344455500",
+                "apartamento": "104b",
+                "type_user": "inquilino"
+            },
+            {
+                "id": "5",
                 "nome":"administrador",
                 "cpf": "admin",
-                "chave_privada": "admin"
+                "chave_privada": "admin",
+                "type_user": "sindico"
             }
         ],
     "encomendas":[
         {
-            "indentificacao":"",
-            "destinatario":"",
-            "coletor":"",
-            "recebedor":"",
-            "data_de_recebimento":"",
-            "data_de_retirada":""
-        }
+            "id": "1",
+            "identificacao":"caixa kabum",
+            "destinatario":"103b",
+            "coletor":"00011122200",
+            "recebedor":"05405305200",
+            "data_de_recebimento":"10/03/2023",
+            "data_de_retirada":"25/03/2023"
+        },
+        {
+          "id": "2",
+          "identificacao":"caixa shoope",
+          "destinatario":"104b",
+          "coletor":"33344455500",
+          "recebedor":"05405305200",
+          "data_de_recebimento":"01/02/2023",
+          "data_de_retirada":"15/02/2023"
+      }
     ],
     "apartamentos":[
         {
-            "numeracao_apartamento":"",
-            "cpf_inquilino":""
-        }
-    ], 
-    "posts": [
-        { "id": 1, "title": "Post 1" },
-        { "id": 2, "title": "Post 2" },
-        { "id": 3, "title": "Post 3" }
+            "id": "1",
+            "numeracao_apartamento":"103b",
+            "cpf_inquilino":"00011122200"
+        },
+        {
+          "id": "2",
+          "numeracao_apartamento":"104b",
+          "cpf_inquilino":"33344455500"
+      }
     ]
-
 }

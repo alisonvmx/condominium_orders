@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 const columns = [
   {
@@ -76,33 +77,18 @@ const columns = [
   },
 
 ];
-const rows = [
-  {
-    identificacao: '101A',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '110b',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '115c',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '120A',
-    inquilino: 'cpf-inquilino',
-  },
-];
 export default {
+  beforeMount() {
+    this.chamarRotaBackend();
+  },
   setup() {
     return {
       columns,
-      rows,
     };
   },
   data() {
     return {
+      usuarios: [],
       showModal: false,
     };
   },
@@ -113,6 +99,22 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+    async chamarRotaBackend() {
+      await axios.get('http://localhost:3000/encomendas')
+        .then((response) => {
+          this.usuarios = response?.data;
+        })
+        .catch((error) => {
+          if (!error.response) {
+          // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+          // eslint-disable-next-line no-console
+            console.log(error.response.data.message);
+          }
+        });
+    },
   },
+
 };
 </script>

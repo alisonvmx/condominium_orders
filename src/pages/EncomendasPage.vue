@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-
+const eu = 123;
 /**
   * Quando carregar a página, acessar via AXIOS a API e obter a lista de entregas
   * Após isso, atualizar os dados da variável "rows"
@@ -25,7 +25,7 @@ const columns = [
 
 const rows = [
   {
-    apartamento: '103B',
+    apartamento: eu,
     identificacao: 'produto Kabum',
     recebedor: 'janclaudio',
     data_de_recebimento: '10/01/2023',
