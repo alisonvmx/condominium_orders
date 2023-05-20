@@ -54,17 +54,6 @@
 
 import axios from 'axios';
 
-let usuarios;
-
-function formatPhoneNumber(phoneNumberString) {
-  const cleaned = (`${phoneNumberString}`).replace(/\D/g, '');
-  const match = cleaned.match(/^(\d{2})(\d{4,5})(\d{4})$/);
-  if (match) {
-    return `(${match[1]}) ${match[2]}-${match[3]}`;
-  }
-  return null;
-}
-
 export const deleteItem = async (phoneNumberString) => {
   // eslint-disable-next-line no-console
   await console.log(phoneNumberString);
@@ -80,43 +69,17 @@ const columns = [
     required: true,
     label: 'Nome',
     align: 'left',
-    field: (row) => row.name,
+    field: (row) => row.nome,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'surname',
-    required: true,
-    label: 'Sobrenome',
-    align: 'left',
-    field: (row) => row.surname,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'group',
+    name: 'type_user',
     required: true,
     label: 'Grupo',
     align: 'left',
-    field: (row) => row.group,
+    field: (row) => row.type_user,
     format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'phone',
-    required: true,
-    label: 'Telefone',
-    align: 'left',
-    field: (row) => row.phone,
-    format: (val) => formatPhoneNumber(val),
-    sortable: true,
-  },
-  {
-    name: 'email',
-    required: true,
-    label: 'Email',
-    align: 'left',
-    field: 'email',
     sortable: true,
   },
   {
@@ -126,17 +89,17 @@ const columns = [
 ];
 
 export default {
-  mounted() {
+  beforeMount() {
     this.chamarRotaBackend();
   },
   setup() {
     return {
       columns,
-      usuarios,
     };
   },
   data() {
     return {
+      usuarios: [],
       showModal: false,
     };
   },
@@ -148,9 +111,9 @@ export default {
       this.showModal = false;
     },
     async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/posts')
+      await axios.get('http://localhost:3000/usuarios')
         .then((response) => {
-          usuarios = response?.data?.inquilino;
+          this.usuarios = response?.data;
         })
         .catch((error) => {
           if (!error.response) {
