@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Controle de Apartamentos"
-      :rows="rows"
+      :rows="apartamentos"
       :columns="columns"
       row-key="name"
     >
@@ -51,23 +51,24 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 const columns = [
   {
-    name: 'identificacao',
+    name: 'numeracao_apartamento',
     required: true,
     label: 'N° Apartamento',
     align: 'left',
-    field: (row) => row.identificacao,
+    field: (row) => row.numeracao_apartamento,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'inquilino',
+    name: 'cpf_inquilino',
     required: true,
     label: 'Inquilino',
     align: 'left',
-    field: (row) => row.inquilino,
+    field: (row) => row.cpf_inquilino,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -76,33 +77,18 @@ const columns = [
   },
 
 ];
-const rows = [
-  {
-    identificacao: '101A',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '110b',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '115c',
-    inquilino: 'cpf-inquilino',
-  },
-  {
-    identificacao: '120A',
-    inquilino: 'cpf-inquilino',
-  },
-];
 export default {
+  beforeMount() {
+    this.chamarRotaBackend();
+  },
   setup() {
     return {
       columns,
-      rows,
     };
   },
   data() {
     return {
+      apartamentos: [],
       showModal: false,
     };
   },
@@ -113,6 +99,22 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+    async chamarRotaBackend() {
+      await axios.get('http://localhost:3000/apartamentos')
+        .then((response) => {
+          this.apartamentos = response?.data;
+        })
+        .catch((error) => {
+          if (!error.response) {
+          // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+          // eslint-disable-next-line no-console
+            console.log(error.response.data.message);
+          }
+        });
+    },
   },
+
 };
 </script>
