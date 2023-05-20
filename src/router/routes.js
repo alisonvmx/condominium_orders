@@ -21,8 +21,8 @@ const routes = [
     component: () => import('layouts/InquilinoMainLayout.vue'),
     children: [
       { path: '/inquilino', component: () => import('pages/HomePage.vue') },
-      { path: '/inquilino/Encomendas', component: () => import('pages/EncomendasPage.vue') },
-      { path: '/inquilino/Historico', component: () => import('pages/HistoricoPage.vue') },
+      { path: '/inquilino/Encomendas', component: () => import('pages/EncomendasInquilinoPage.vue') },
+      { path: '/inquilino/Historico', component: () => import('pages/HistoricoInquilinoPage.vue') },
     ],
   },
   {

@@ -2,10 +2,14 @@
   <q-page class="flex flex-center column">
     <img
       alt="Cond Orders logo"
-      src="/src/assets/🦆 icon _shopping cart_.svg"
-      style="width: 200px; height: 200px"
+      src="/src/assets/cart.svg"
+      style="width: 150px; height: 150px"
     >
-    <h6>Acesse nossos Serviços atravês do meu de navegação..</h6>
+    <img class="q-mt-xl"
+      alt="Texto de Serviços"
+      src="/src/assets/texto-home.png"
+      style="width: 60%;"
+    >
   </q-page>
 </template>
 

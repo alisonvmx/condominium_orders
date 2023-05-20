@@ -5,13 +5,13 @@
 
     <q-section class="q-mb-lg"
     style="text-align: center; text-transform: uppercase; font-weight: bold; color: white;">
-      <img src="/src/assets/🦆 icon _shopping cart_.svg">
+      <img src="/src/assets/cart.svg">
       <p>cond orders</p>
     </q-section>
 
     <q-form class="flex justify-center items-center column" @submit.prevent="login">
       <q-input class="q-mb-xs" rounded outlined bg-color="white" color="black"
-      v-model="user.email" label="Usuário" >
+      v-model="user.cpf" label="Usuário" >
         <template #prepend>
           <q-avatar>
             <img src="/src/assets/user.svg">
@@ -60,7 +60,7 @@ const router = useRouter();
 const options = ref(['inquilino', 'sindico', 'porteiro']);
 
 const user = reactive({
-  email: '',
+  cpf: '',
   password: '',
   perfil: options.value[0],
 });
@@ -71,8 +71,9 @@ async function getUser() {
       const response = await axios.get('http://localhost:3000/usuarios');
       const usuarios = response.data;
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
+        if (usuario.cpf === user.cpf && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
           router.replace('/inquilino');
+          localStorage.setItem('infoUsuario', usuario.apartamento);
         }
       });
     }
@@ -81,7 +82,7 @@ async function getUser() {
       const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
+        if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
           router.replace('/porteiro');
         }
       });
@@ -91,7 +92,7 @@ async function getUser() {
       const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.email && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
+        if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
           router.replace('/sindico');
         }
       });

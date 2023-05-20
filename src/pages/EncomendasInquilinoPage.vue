@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 import axios from 'axios';
 /**
   * Quando carregar a página, acessar via AXIOS a API e obter a lista de entregas
@@ -50,7 +51,7 @@ export default {
         .then((response) => {
           const encomendasUsuario = response?.data;
           encomendasUsuario.forEach((encomendaUsuario) => {
-            if (encomendaUsuario.data_de_retirada === '') {
+            if (encomendaUsuario.destinatario === localStorage.getItem('infoUsuario') && encomendaUsuario.data_de_retirada === '') {
               this.encomendas.push(encomendaUsuario);
             }
           });

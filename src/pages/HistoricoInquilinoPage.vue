@@ -1,26 +1,17 @@
 <template>
   <q-page class="q-pa-md">
-    <q-table
-       title="Encomendas"
-       :rows="encomendas"
-       :columns="columns"
-       row-key="name"
-     />
+    <q-table class="flex" title="Histórico" :rows="historico" :columns="columns" row-key="name" />
   </q-page>
 </template>
 
 <script>
 import axios from 'axios';
-/**
-  * Quando carregar a página, acessar via AXIOS a API e obter a lista de entregas
-  * Após isso, atualizar os dados da variável "rows"
-  */
 
 const columns = [
-  { name: 'Apartamento', field: 'destinatario', label: 'Apartamento' },
+  { name: 'codigo', field: 'id', label: 'Codigo' },
   { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
-  { name: 'recebedor', field: 'recebedor', label: 'Recebedor' },
-  { name: 'data_de_recebimento', field: 'data_de_recebimento', label: 'Data de Recebimento' },
+  { name: 'inquilino', field: 'coletor', label: 'Inquilino' },
+  { name: 'data_de_retirada', field: 'data_de_retirada', label: 'Data de Retirada' },
 ];
 
 export default {
@@ -34,7 +25,7 @@ export default {
   },
   data() {
     return {
-      encomendas: [],
+      historico: [],
       showModal: false,
     };
   },
@@ -48,10 +39,10 @@ export default {
     async chamarRotaBackend() {
       await axios.get('http://localhost:3000/Encomendas')
         .then((response) => {
-          const encomendasUsuario = response?.data;
-          encomendasUsuario.forEach((encomendaUsuario) => {
-            if (encomendaUsuario.data_de_retirada === '') {
-              this.encomendas.push(encomendaUsuario);
+          const encomendasRetiradas = response?.data;
+          encomendasRetiradas.forEach((encomendaRetirada) => {
+            if (encomendaRetirada.destinatario === localStorage.getItem('infoUsuario') && encomendaRetirada.data_de_retirada !== '') {
+              this.historico.push(encomendaRetirada);
             }
           });
         })
@@ -68,4 +59,5 @@ export default {
   },
 
 };
+
 </script>

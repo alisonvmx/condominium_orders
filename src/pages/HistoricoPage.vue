@@ -1,28 +1,63 @@
 <template>
   <q-page class="q-pa-md">
-      <q-table class="flex" title="Histórico" :rows="rows" :columns="columns" row-key="name" />
+    <q-table class="flex" title="Histórico" :rows="historico" :columns="columns" row-key="name" />
   </q-page>
 </template>
 
-<script setup>
+<script>
+import axios from 'axios';
+
 const columns = [
-  { name: 'codigo', field: 'codigo', label: 'Codigo' },
+  { name: 'codigo', field: 'id', label: 'Codigo' },
   { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
-  { name: 'inquilino', field: 'inquilino', label: 'Inquilino' },
+  { name: 'inquilino', field: 'coletor', label: 'Inquilino' },
   { name: 'data_de_retirada', field: 'data_de_retirada', label: 'Data de Retirada' },
 ];
-const rows = [
-  {
-    codigo: '1',
-    identificacao: 'Kabum',
-    inquilino: 'Pedro',
-    data_de_retirada: '23/03/2023',
+
+export default {
+  beforeMount() {
+    this.chamarRotaBackend();
   },
-  {
-    codigo: '2',
-    identificacao: 'Mercado Livre',
-    inquilino: 'Pedro',
-    data_de_retirada: '23/03/2023',
+  setup() {
+    return {
+      columns,
+    };
   },
-];
+  data() {
+    return {
+      historico: [],
+      showModal: false,
+    };
+  },
+  methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+    async chamarRotaBackend() {
+      await axios.get('http://localhost:3000/Encomendas')
+        .then((response) => {
+          const encomendasRetiradas = response?.data;
+          encomendasRetiradas.forEach((encomendaRetirada) => {
+            if (encomendaRetirada.data_de_retirada !== '') {
+              this.historico.push(encomendaRetirada);
+            }
+          });
+        })
+        .catch((error) => {
+          if (!error.response) {
+          // network error
+            this.errorStatus = 'Error: Network Error';
+          } else {
+          // eslint-disable-next-line no-console
+            console.log(error.response.data.message);
+          }
+        });
+    },
+  },
+
+};
+
 </script>

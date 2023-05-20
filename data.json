@@ -9,7 +9,7 @@
     },
     {
       "id": "2",
-      "nome": "Julio",
+      "nome": "Czar",
       "cpf": "00011122200",
       "apartamento": "103b",
       "type_user": "inquilino"
@@ -37,8 +37,9 @@
     },
     {
       "id": 3112,
-      "type_user": "inquilino",
       "nome": "julio",
+      "cpf": "33300055500",
+      "type_user": "inquilino",
       "apartamento": "101b"
     }
   ],
@@ -50,16 +51,43 @@
       "coletor": "00011122200",
       "recebedor": "05405305200",
       "data_de_recebimento": "10/03/2023",
-      "data_de_retirada": "25/03/2023"
+      "data_de_retirada": ""
     },
     {
       "id": "2",
       "identificacao": "caixa shoope",
-      "destinatario": "104b",
-      "coletor": "33344455500",
+      "destinatario": "103b",
+      "coletor": "00011122200",
       "recebedor": "05405305200",
       "data_de_recebimento": "01/02/2023",
       "data_de_retirada": "15/02/2023"
+    },
+    {
+      "id": "3",
+      "identificacao": "caixa",
+      "destinatario": "103b",
+      "coletor": "00011122200",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "08/03/2023",
+      "data_de_retirada": "20/03/2023"
+    },
+    {
+      "id": "4",
+      "identificacao": "envelope",
+      "destinatario": "103b",
+      "coletor": "00011122200",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "25/01/2023",
+      "data_de_retirada": ""
+    },
+    {
+      "id": "5",
+      "identificacao": "carta",
+      "destinatario": "101b",
+      "coletor": "33300055500",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "03/05/2023",
+      "data_de_retirada": ""
     }
   ],
   "apartamentos": [
