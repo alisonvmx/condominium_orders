@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Controle de Apartamentos"
-      :rows="rows"
+      :rows="apartamentos"
       :columns="columns"
       row-key="name"
     >
@@ -55,20 +55,20 @@ import axios from 'axios';
 
 const columns = [
   {
-    name: 'identificacao',
+    name: 'numeracao_apartamento',
     required: true,
     label: 'N° Apartamento',
     align: 'left',
-    field: (row) => row.identificacao,
+    field: (row) => row.numeracao_apartamento,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'inquilino',
+    name: 'cpf_inquilino',
     required: true,
     label: 'Inquilino',
     align: 'left',
-    field: (row) => row.inquilino,
+    field: (row) => row.cpf_inquilino,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -88,7 +88,7 @@ export default {
   },
   data() {
     return {
-      usuarios: [],
+      apartamentos: [],
       showModal: false,
     };
   },
@@ -100,9 +100,9 @@ export default {
       this.showModal = false;
     },
     async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/encomendas')
+      await axios.get('http://localhost:3000/apartamentos')
         .then((response) => {
-          this.usuarios = response?.data;
+          this.apartamentos = response?.data;
         })
         .catch((error) => {
           if (!error.response) {

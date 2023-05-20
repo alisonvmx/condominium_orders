@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Controle de Encomendas"
-      :rows="usuarios"
+      :rows="encomendas"
       :columns="columns"
       row-key="name"
     >
@@ -125,7 +125,7 @@ export default {
   },
   data() {
     return {
-      usuarios: [],
+      encomendas: [],
       showModal: false,
     };
   },
@@ -139,7 +139,7 @@ export default {
     async chamarRotaBackend() {
       await axios.get('http://localhost:3000/encomendas')
         .then((response) => {
-          this.usuarios = response?.data;
+          this.encomendas = response?.data;
         })
         .catch((error) => {
           if (!error.response) {
