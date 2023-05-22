@@ -81,14 +81,14 @@ export default {
       if (this.user.group.value === 'inquilino') {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: specificWord,
+          type_user: this.user.group.value,
           nome: this.user.name,
           apartamento: this.user.variable,
         };
       } else {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: specificWord,
+          type_user: this.user.group.value,
           nome: this.user.name,
           chave_privada: Math.random(),
         };
