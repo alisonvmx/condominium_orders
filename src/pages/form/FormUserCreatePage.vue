@@ -14,6 +14,7 @@
 <script>
 import { VueMaskDirective } from 'vue-the-mask';
 import axios from 'axios';
+import { Notify } from 'quasar';
 
 export default {
   name: 'FormPage',
@@ -40,14 +41,12 @@ export default {
   },
   computed: {
     inputlabel() {
-      // Define your condition to change the mask
       if (this.group.value === 'inquilino') {
         return 'Apartamento';
       }
       return 'Chave privada';
     },
     inputMask() {
-      // Define your condition to change the mask
       if (this.group.value === 'inquilino') {
         return 'Apartamento';
       }
@@ -61,6 +60,10 @@ export default {
   methods: {
     handleSubmit() {
       let formData;
+      const url = window.location.href;
+      const parts = url.split('/');
+      const specificWord = parts[parts.length - 3];
+
       function generateRandomNumber(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -84,13 +87,15 @@ export default {
       axios.post('http://localhost:3000/usuarios', formData)
         .then((response) => {
           console.log(response);
-          this.$router.push('/sindico/users');
-        // Optionally, perform any necessary actions after successful form submission
+          console.log(`/${specificWord}/ControleUsuarios`);
+          this.$router.push(`/${specificWord}/ControleUsuarios`);
         })
         .catch((error) => {
-        // Handle any error that occurred during form submission
-          console.error(error);
-        // Optionally, show an error message to the user
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
         });
     },
   },

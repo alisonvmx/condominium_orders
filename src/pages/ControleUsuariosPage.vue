@@ -17,8 +17,7 @@
           round
           dense
           icon="edit"
-          to="/sindico/ControleUsuarios/create"
-          replace
+          @click="goEditPage(props.row)"
           class="q-ml-sm"
         />
         <q-btn
@@ -41,11 +40,11 @@
         </q-card-section>
         <q-card-section>
           <q-card-main>
-            <div class="text-h6">Você tem certeza que irá deletar esse usuário de id {{selectedValue}}</div>
+            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
           </q-card-main>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn color="red" label="deletar" @click="(props.row)" />
+          <q-btn color="red" label="deletar" @click="userDelete()" />
           <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
       </q-card>
@@ -56,6 +55,9 @@
 <script>
 
 import axios from 'axios';
+import { Notify } from 'quasar';
+
+let userID;
 
 const columns = [
   {
@@ -108,28 +110,30 @@ export default {
     };
   },
   methods: {
-    openModal(value) {
-      // eslint-disable-next-line no-console
-      console.log(value.id);
+    openModal(row) {
+      userID = row.id;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
     },
-    userDelete(id = this.selectedValue) {
-      axios.delete(`http://localhost:3000/usuarios/${id}`)
+    goEditPage(row) {
+      userID = row.id;
+      console.log(userID);
+      this.$router.push(`/sindico/ControleUsuarios/edit/${userID}`);
+    },
+    userDelete() {
+      axios.delete(`http://localhost:3000/usuarios/${userID}`)
         .then((response) => {
-          // eslint-disable-next-line no-console
+          window.location.reload();
           console.log(response);
         })
         .catch((error) => {
-          if (!error.response) {
-            // network error
-            this.errorStatus = 'Error: Network Error';
-          } else {
-            // eslint-disable-next-line no-console
-            console.log(error.response.data.message);
-          }
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
         });
     },
     async chamarRotaBackend() {
@@ -138,13 +142,11 @@ export default {
           this.usuarios = response?.data;
         })
         .catch((error) => {
-          if (!error.response) {
-            // network error
-            this.errorStatus = 'Error: Network Error';
-          } else {
-            // eslint-disable-next-line no-console
-            console.log(error.response.data.message);
-          }
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
         });
     },
   },
