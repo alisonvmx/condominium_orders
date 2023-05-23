@@ -1,0 +1,152 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "jose",
+      "cpf": "45515135734321",
+      "chave_privada": 0.7690308647998048,
+      "type_user": "porteiro"
+    },
+    {
+      "id": "2",
+      "nome": "Czar",
+      "cpf": "00011122200",
+      "apartamento": "103b",
+      "type_user": "inquilino"
+    },
+    {
+      "id": "3",
+      "nome": "rodrigo",
+      "cpf": "11122233300",
+      "chave_privada": "1234qwer",
+      "type_user": "sindico"
+    },
+    {
+      "id": "4",
+      "nome": "jan",
+      "cpf": "33344455500",
+      "apartamento": "104b",
+      "type_user": "inquilino"
+    },
+    {
+      "id": "5",
+      "nome": "administrador",
+      "cpf": "admin",
+      "chave_privada": "admin",
+      "type_user": "sindico"
+    },
+    {
+      "id": 3647,
+      "nome": "janclaudio",
+      "cpf": "22233344400",
+      "apartamento": "108b",
+      "type_user": "inquilino"
+    },
+    {
+      "id": 4721,
+      "nome": "julio",
+      "cpf": "454654654654",
+      "apartamento": "105B",
+      "type_user": "inquilino"
+    },
+    {
+      "id": 1370,
+      "nome": "Julio Alves",
+      "cpf": "46504654515",
+      "apartamento": "108D",
+      "type_user": "inquilino"
+    }
+  ],
+  "encomendas": [
+    {
+      "identificacao": "caixa kabum 3!",
+      "destinatario": "103b",
+      "coletor": "00011122200",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "10/03/2023",
+      "data_de_retirada": "15/02/2023",
+      "id": "1"
+    },
+    {
+      "identificacao": "cx shoope",
+      "destinatario": "103b",
+      "coletor": "00011122200",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "01/02/2023",
+      "data_de_retirada": "15/02/2023",
+      "id": "2"
+    },
+    {
+      "identificacao": "caixa",
+      "destinatario": "103b",
+      "coletor": "00011122200",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "08/03/2023",
+      "data_de_retirada": "18/03/2023",
+      "id": "3"
+    },
+    {
+      "identificacao": "mercadoria teste",
+      "destinatario": "105b",
+      "coletor": "00011122200",
+      "recebedor": "11122233300",
+      "data_de_recebimento": "23/05/2023",
+      "data_de_retirada": "",
+      "id": 1383
+    },
+    {
+      "identificacao": "Kabum!",
+      "destinatario": "104b",
+      "coletor": "680456456405",
+      "recebedor": "05405305200",
+      "data_de_recebimento": "25/05/2023",
+      "id": 2145
+    }
+  ],
+  "apartamentos": [
+    {
+      "numeracao_apartamento": "105b",
+      "cpf_inquilino": "00011122200",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "numeracao_apartamento": "104b",
+      "cpf_inquilino": "33344455500"
+    },
+    {
+      "id": 4990,
+      "numeracao_apartamento": "102b",
+      "cpf_inquilino": "07507607700"
+    },
+    {
+      "id": 1972,
+      "numeracao_apartamento": "110b",
+      "cpf_inquilino": "11122233300"
+    },
+    {
+      "id": 240,
+      "numeracao_apartamento": "111b",
+      "cpf_inquilino": "33344455500"
+    },
+    {
+      "numeracao_apartamento": "105b",
+      "cpf_inquilino": "33344455500",
+      "id": 2909
+    },
+    {
+      "numeracao_apartamento": "120b",
+      "cpf_inquilino": "454654654654",
+      "id": 2906
+    },
+    {
+      "id": 1112,
+      "numeracao_apartamento": "135b"
+    },
+    {
+      "numeracao_apartamento": "108D",
+      "cpf_inquilino": "33344455500",
+      "id": 3254
+    }
+  ]
+}
