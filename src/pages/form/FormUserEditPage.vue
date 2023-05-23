@@ -4,7 +4,7 @@
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="user.name" label="Name" class="q-mb-md" />
-      <q-input v-model="user.cpf" label="CPF" class="q-mb-md" />
+      <q-input v-model="cpf" mask="###.###.###-##" placeholder="Digite seu CPF"  class="q-mb-md" />
       <q-input v-model="user.variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
       <q-select v-model="user.group" :options="groups" label="Grupo" class="q-mb-md" />
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />

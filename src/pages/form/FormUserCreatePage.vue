@@ -4,7 +4,7 @@
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="name" label="Name" class="q-mb-md" />
-      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
+      <q-input v-model="cpf" mask="###.###.###-##" placeholder="Digite seu CPF" class="q-mb-md" />
       <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
       <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
 
@@ -26,6 +26,7 @@ export default {
       name: '',
       variable: '',
       group: '',
+      cpf: '',
       groups: [
         { label: 'inquilino', value: 'inquilino' },
         { label: 'sindico', value: 'sindico' },
