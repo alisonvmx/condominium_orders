@@ -10,8 +10,13 @@
 </template>
 
 <script>
+if (sessionStorage.type !== '99154724') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
 
 import axios from 'axios';
+
 /**
   * Quando carregar a página, acessar via AXIOS a API e obter a lista de entregas
   * Após isso, atualizar os dados da variável "rows"

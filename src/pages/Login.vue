@@ -75,6 +75,8 @@ async function getUser() {
         if (usuario.cpf === user.cpf && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
           router.replace('/inquilino');
           localStorage.setItem('infoUsuario', usuario.apartamento);
+          sessionStorage.setItem('type', '99154724');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
     }
@@ -85,6 +87,8 @@ async function getUser() {
       usuarios.forEach((usuario) => {
         if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
           router.replace('/porteiro');
+          sessionStorage.setItem('type', '291196291196');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
     }
@@ -95,6 +99,8 @@ async function getUser() {
       usuarios.forEach((usuario) => {
         if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
           router.replace('/sindico');
+          sessionStorage.setItem('type', '98984512');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
     }

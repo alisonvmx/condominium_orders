@@ -14,6 +14,10 @@
 </template>
 
 <script>
+if (sessionStorage.pag !== 'logado') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
 import { defineComponent } from 'vue';
 
 export default defineComponent({

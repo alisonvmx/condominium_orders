@@ -4,7 +4,7 @@
       "id": "1",
       "nome": "jose",
       "cpf": "45515135734321",
-      "chave_privada": 0.7690308647998048,
+      "chave_privada": "45646546547657",
       "type_user": "porteiro"
     },
     {
@@ -47,7 +47,8 @@
       "nome": "julio",
       "cpf": "454654654654",
       "apartamento": "105B",
-      "type_user": "inquilino"
+      "chave_privada": "454544",
+      "type_user": "porteiro"
     },
     {
       "id": 1370,
@@ -55,6 +56,12 @@
       "cpf": "46504654515",
       "apartamento": "108D",
       "type_user": "inquilino"
+    },
+    {
+      "id": 3677,
+      "nome": "julio",
+      "cpf": "454545454",
+      "chave_privada": 0.40497464611664546
     }
   ],
   "encomendas": [

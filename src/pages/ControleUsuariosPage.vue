@@ -54,6 +54,11 @@
 
 <script>
 
+if (sessionStorage.type !== '98984512') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
+
 import axios from 'axios';
 import { Notify } from 'quasar';
 
