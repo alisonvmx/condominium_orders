@@ -3,9 +3,10 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-select v-model="user.group" :options="groups" label="Grupo" class="q-mb-md" />
       <q-input v-model="user.name" label="Name" class="q-mb-md" />
+      <q-input v-model="user.cpf" label="CPF" class="q-mb-md" />
       <q-input v-model="user.variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
+      <q-select v-model="user.group" :options="groups" label="Grupo" class="q-mb-md" />
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
@@ -27,6 +28,7 @@ export default {
     return {
       user: {
         name: '',
+        cpf: '',
         variable: '',
         group: [],
         groups: [
@@ -81,16 +83,19 @@ export default {
       if (this.user.group.value === 'inquilino') {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: this.user.group.value,
           nome: this.user.name,
+          cpf: this.user.cpf,
           apartamento: this.user.variable,
+          type_user: this.user.group.value,
+
         };
       } else {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: this.user.group.value,
           nome: this.user.name,
+          cpf: this.user.cpf,
           chave_privada: Math.random(),
+          type_user: this.user.group.value,
         };
       }
 
@@ -115,6 +120,7 @@ export default {
         .then((response) => {
           this.user.group = { label: response.data.type_user, value: response.data.type_user };
           this.user.name = response.data.nome;
+          this.user.cpf = response.data.cpf;
           if (response.data.type_user === 'inquilino') {
             this.user.variable = response.data.apartamento;
           } else {

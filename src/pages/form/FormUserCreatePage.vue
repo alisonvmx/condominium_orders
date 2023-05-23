@@ -3,9 +3,11 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
       <q-input v-model="name" label="Name" class="q-mb-md" />
+      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
       <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
+      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
+
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
@@ -72,16 +74,19 @@ export default {
       if (this.group.value === 'inquilino') {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: this.group.value,
           nome: this.name,
+          cpf: this.cpf,
           apartamento: this.variable,
+          type_user: this.group.value,
+
         };
       } else {
         formData = {
           id: generateRandomNumber(1, 5000),
-          type_user: this.group.value,
           nome: this.name,
+          cpf: this.cpf,
           chave_privada: Math.random(),
+          type_user: this.groupvalue,
         };
       }
       axios.post('http://localhost:3000/usuarios', formData)

@@ -4,18 +4,19 @@
       title="Controle de Encomendas"
       :rows="encomendas"
       :columns="columns"
-      row-key="name"
+      row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn label="Novo" icon="add" color="primary" to="/users/create" replace/>
+        <q-btn label="Novo" icon="add" color="primary"
+        to="/sindico/ControleEncomendas/create" replace/>
       </template>
-      <template v-slot:body-cell-actions>
+      <template v-slot:body-cell-actions="props">
         <q-btn
           flat
           round
           dense
           icon="edit"
-          @click="openModal"
+          @click="goEditPage(props.row)"
           class="q-ml-sm"
         />
         <q-btn
@@ -23,7 +24,7 @@
           round
           dense
           icon="delete"
-          @click="openModal"
+          @click="openModal(props.row)"
           class="q-ml-sm"
         />
       </template>
@@ -42,8 +43,8 @@
           </q-card-main>
         </q-card-section>
         <q-card-actions aligm="right">
-          <q-btn color="red" label="Submit" @click="closeModal" />
-          <q-btn color="primary" label="Close" @click="closeModal" />
+          <q-btn color="red" label="deletar" @click="userDelete()" />
+          <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -52,6 +53,9 @@
 
 <script>
 import axios from 'axios';
+import { Notify } from 'quasar';
+
+let encomendasID;
 
 const columns = [
   {
@@ -130,11 +134,31 @@ export default {
     };
   },
   methods: {
-    openModal() {
+    openModal(row) {
+      encomendasID = row.id;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+    },
+    goEditPage(row) {
+      encomendasID = row.id;
+      this.$router.push(`/sindico/ControleEncomendas/edit/${encomendasID}`);
+    },
+    userDelete() {
+      axios.delete(`http://localhost:3000/encomendas/${encomendasID}`)
+        .then((response) => {
+          window.location.reload();
+          // eslint-disable-next-line no-console
+          console.log(response);
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
     },
     async chamarRotaBackend() {
       await axios.get('http://localhost:3000/encomendas')

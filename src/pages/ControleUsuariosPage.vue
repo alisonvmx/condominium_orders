@@ -79,6 +79,15 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'cpf',
+    required: true,
+    label: 'CPF',
+    align: 'left',
+    field: (row) => row.cpf,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
     name: 'type_user',
     required: true,
     label: 'Grupo',
