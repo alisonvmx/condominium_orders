@@ -58,6 +58,8 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 
+sessionStorage.clear();
+
 const router = useRouter();
 const options = ref(['inquilino', 'sindico', 'porteiro']);
 
