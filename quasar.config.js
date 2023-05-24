@@ -218,8 +218,6 @@ module.exports = configure((/* ctx */) => ({
 
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
-const { configure } = require('quasar/wrappers');
-
 module.exports = configure((/* ctx */) => ({
   eslint: {
     // fix: true,
