@@ -54,6 +54,11 @@
 
 <script>
 
+if (sessionStorage.type !== '98984512') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
+
 import axios from 'axios';
 import { Notify } from 'quasar';
 
@@ -104,7 +109,14 @@ const columns = [
 
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    let paginaAtual = window.location.href.toString();
+    paginaAtual = paginaAtual.split('/');
+    const ifPorteiro = paginaAtual.includes('porteiro');
+    if (ifPorteiro) {
+      this.chamarRotaPorteiro();
+    } else {
+      this.chamarRotaBackend();
+    }
   },
   setup() {
     return {
@@ -149,6 +161,23 @@ export default {
       await axios.get('http://localhost:3000/usuarios')
         .then((response) => {
           this.usuarios = response?.data;
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async chamarRotaPorteiro() {
+      await axios.get('http://localhost:3000/usuarios')
+        .then((response) => {
+          response.data.forEach((user) => {
+            if (user.type_user === 'inquilino') {
+              this.usuarios.push(user);
+            }
+          });
         })
         .catch((error) => {
           Notify.create({

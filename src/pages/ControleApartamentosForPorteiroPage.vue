@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      title="Controle de Encomendas"
-      :rows="encomendas"
+      title="Controle de Apartamentos"
+      :rows="apartamentos"
       :columns="columns"
       row-key="id"
     >
       <template v-slot:top-right>
         <q-btn label="Novo" icon="add" color="primary"
-        to="/sindico/ControleEncomendas/create" replace/>
+        to="/porteiro/ControleApartamentos/create" replace/>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-btn
@@ -34,17 +34,17 @@
     <q-dialog v-model="showModal">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Deletar Encomenda</div>
+          <div class="text-h6">Deletar Apartamento</div>
 
         </q-card-section>
         <q-card-section>
           <q-card-main>
-            <div class="text-h6">Você tem certeza que irá deletar essa Encomenda</div>
+            <div class="text-h6">Você tem certeza que irá deletar esse Apartamento</div>
           </q-card-main>
         </q-card-section>
         <q-card-actions aligm="right">
-          <q-btn color="red" label="deletar" @click="userDelete()" />
-          <q-btn color="primary" label="fechar" @click="closeModal" />
+          <q-btn color="red" label="Deletar" @click="userDelete()" />
+          <q-btn color="primary" label="Fechar" @click="closeModal" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -52,67 +52,31 @@
 </template>
 
 <script>
-if (sessionStorage.type !== '98984512') {
+if (sessionStorage.type !== '291196291196') {
   sessionStorage.clear();
   window.location.href = '/';
 }
 import axios from 'axios';
 import { Notify } from 'quasar';
 
-let encomendasID;
+let apartamentosID;
 
 const columns = [
   {
-    name: 'identificacao',
+    name: 'numeracao_apartamento',
     required: true,
-    label: 'Identificação',
+    label: 'N° Apartamento',
     align: 'left',
-    field: (row) => row.identificacao,
+    field: (row) => row.numeracao_apartamento,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'destinatario',
+    name: 'cpf_inquilino',
     required: true,
-    label: 'Destinatario',
+    label: 'Inquilino',
     align: 'left',
-    field: (row) => row.destinatario,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'coletor',
-    required: true,
-    label: 'Coletor',
-    align: 'left',
-    field: (row) => row.coletor,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'recebedor',
-    required: true,
-    label: 'Recebedor',
-    align: 'left',
-    field: (row) => row.recebedor,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'data_de_recebimento',
-    required: true,
-    label: 'Data Recebimento',
-    align: 'left',
-    field: (row) => row.data_de_recebimento,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'data_de_retirada',
-    required: true,
-    label: 'Data Retirada',
-    align: 'left',
-    field: (row) => row.data_de_retirada,
+    field: (row) => row.cpf_inquilino,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -121,7 +85,6 @@ const columns = [
   },
 
 ];
-
 export default {
   beforeMount() {
     this.chamarRotaBackend();
@@ -133,24 +96,24 @@ export default {
   },
   data() {
     return {
-      encomendas: [],
+      apartamentos: [],
       showModal: false,
     };
   },
   methods: {
     openModal(row) {
-      encomendasID = row.id;
+      apartamentosID = row.id;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
     },
     goEditPage(row) {
-      encomendasID = row.id;
-      this.$router.push(`/sindico/ControleEncomendas/edit/${encomendasID}`);
+      apartamentosID = row.id;
+      this.$router.push(`/porteiro/ControleApartamentos/edit/${apartamentosID}`);
     },
     userDelete() {
-      axios.delete(`http://localhost:3000/encomendas/${encomendasID}`)
+      axios.delete(`http://localhost:3000/apartamentos/${apartamentosID}`)
         .then((response) => {
           window.location.reload();
           // eslint-disable-next-line no-console
@@ -165,9 +128,9 @@ export default {
         });
     },
     async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/encomendas')
+      await axios.get('http://localhost:3000/apartamentos')
         .then((response) => {
-          this.encomendas = response?.data;
+          this.apartamentos = response?.data;
         })
         .catch((error) => {
           if (!error.response) {

@@ -5,6 +5,10 @@
 </template>
 
 <script>
+if (sessionStorage.type !== '99154724') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
 import axios from 'axios';
 
 const columns = [

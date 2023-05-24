@@ -1,14 +1,15 @@
+<!-- eslint-disable vue/valid-v-slot -->
+<!-- eslint-disable max-len -->
 <template>
   <div class="q-pa-md">
     <q-table
-      title="Controle de Encomendas"
-      :rows="encomendas"
+      title="Controle de usuários"
+      :rows="usuarios"
       :columns="columns"
       row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn label="Novo" icon="add" color="primary"
-        to="/sindico/ControleEncomendas/create" replace/>
+        <q-btn label="Novo" icon="add" color="primary" to="/porteiro/ControleUsuarios/create" replace/>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-btn
@@ -34,15 +35,15 @@
     <q-dialog v-model="showModal">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Deletar Encomenda</div>
+          <div class="text-h6">Deletar usuário</div>
 
         </q-card-section>
         <q-card-section>
           <q-card-main>
-            <div class="text-h6">Você tem certeza que irá deletar essa Encomenda</div>
+            <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
           </q-card-main>
         </q-card-section>
-        <q-card-actions aligm="right">
+        <q-card-actions align="right">
           <q-btn color="red" label="deletar" @click="userDelete()" />
           <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
@@ -52,67 +53,50 @@
 </template>
 
 <script>
-if (sessionStorage.type !== '98984512') {
+if (sessionStorage.type !== '291196291196') {
   sessionStorage.clear();
   window.location.href = '/';
 }
+
 import axios from 'axios';
 import { Notify } from 'quasar';
 
-let encomendasID;
+let userID;
 
 const columns = [
   {
-    name: 'identificacao',
+    name: 'id',
     required: true,
-    label: 'Identificação',
+    label: 'id',
     align: 'left',
-    field: (row) => row.identificacao,
+    field: (row) => row.id,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'destinatario',
+    name: 'name',
     required: true,
-    label: 'Destinatario',
+    label: 'Nome',
     align: 'left',
-    field: (row) => row.destinatario,
+    field: (row) => row.nome,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'coletor',
+    name: 'cpf',
     required: true,
-    label: 'Coletor',
+    label: 'CPF',
     align: 'left',
-    field: (row) => row.coletor,
+    field: (row) => row.cpf,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: 'recebedor',
+    name: 'type_user',
     required: true,
-    label: 'Recebedor',
+    label: 'Grupo',
     align: 'left',
-    field: (row) => row.recebedor,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'data_de_recebimento',
-    required: true,
-    label: 'Data Recebimento',
-    align: 'left',
-    field: (row) => row.data_de_recebimento,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
-    name: 'data_de_retirada',
-    required: true,
-    label: 'Data Retirada',
-    align: 'left',
-    field: (row) => row.data_de_retirada,
+    field: (row) => row.type_user,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -124,7 +108,7 @@ const columns = [
 
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    this.chamarRotaPorteiro();
   },
   setup() {
     return {
@@ -133,27 +117,28 @@ export default {
   },
   data() {
     return {
-      encomendas: [],
+      usuarios: [],
       showModal: false,
+      selectedValue: Number,
     };
   },
   methods: {
     openModal(row) {
-      encomendasID = row.id;
+      userID = row.id;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
     },
     goEditPage(row) {
-      encomendasID = row.id;
-      this.$router.push(`/sindico/ControleEncomendas/edit/${encomendasID}`);
+      userID = row.id;
+      console.log(userID);
+      this.$router.push(`/porteiro/ControleUsuarios/edit/${userID}`);
     },
     userDelete() {
-      axios.delete(`http://localhost:3000/encomendas/${encomendasID}`)
+      axios.delete(`http://localhost:3000/usuarios/${userID}`)
         .then((response) => {
           window.location.reload();
-          // eslint-disable-next-line no-console
           console.log(response);
         })
         .catch((error) => {
@@ -165,21 +150,35 @@ export default {
         });
     },
     async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/encomendas')
+      await axios.get('http://localhost:3000/usuarios')
         .then((response) => {
-          this.encomendas = response?.data;
+          this.usuarios = response?.data;
         })
         .catch((error) => {
-          if (!error.response) {
-          // network error
-            this.errorStatus = 'Error: Network Error';
-          } else {
-          // eslint-disable-next-line no-console
-            console.log(error.response.data.message);
-          }
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async chamarRotaPorteiro() {
+      await axios.get('http://localhost:3000/usuarios')
+        .then((response) => {
+          response.data.forEach((user) => {
+            if (user.type_user === 'inquilino') {
+              this.usuarios.push(user);
+            }
+          });
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
         });
     },
   },
-
 };
 </script>

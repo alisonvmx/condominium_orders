@@ -56,9 +56,27 @@
 import { ref, reactive } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+
+sessionStorage.clear();
 
 const router = useRouter();
 const options = ref(['inquilino', 'sindico', 'porteiro']);
+
+const $q = useQuasar();
+
+// function alert() {
+//   $q.dialog({
+//     message: 'Usuario e/ou chave de acesso invalida!',
+//   });
+// }
+
+function triggerNegative() {
+  $q.notify({
+    type: 'negative',
+    message: 'Usuario e/ou Chave inválida!',
+  });
+}
 
 const user = reactive({
   cpf: '',
@@ -75,8 +93,11 @@ async function getUser() {
         if (usuario.cpf === user.cpf && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
           router.replace('/inquilino');
           localStorage.setItem('infoUsuario', usuario.apartamento);
+          sessionStorage.setItem('type', '99154724');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
+      triggerNegative();
     }
     if (tipoUsuario === 'porteiro') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -85,8 +106,11 @@ async function getUser() {
       usuarios.forEach((usuario) => {
         if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
           router.replace('/porteiro');
+          sessionStorage.setItem('type', '291196291196');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
+      triggerNegative();
     }
     if (tipoUsuario === 'sindico') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -95,8 +119,12 @@ async function getUser() {
       usuarios.forEach((usuario) => {
         if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
           router.replace('/sindico');
+          sessionStorage.setItem('type', '98984512');
+          sessionStorage.setItem('pag', 'logado');
         }
       });
+      // eslint-disable-next-line no-console
+      triggerNegative();
     }
   } catch (error) {
     // eslint-disable-next-line no-console

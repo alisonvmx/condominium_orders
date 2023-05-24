@@ -8,7 +8,7 @@
     >
       <template v-slot:top-right>
         <q-btn label="Novo" icon="add" color="primary"
-        to="/sindico/ControleEncomendas/create" replace/>
+        to="/porteiro/ControleEncomendas/create" replace/>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-btn
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-if (sessionStorage.type !== '98984512') {
+if (sessionStorage.type !== '291196291196') {
   sessionStorage.clear();
   window.location.href = '/';
 }
@@ -147,7 +147,7 @@ export default {
     },
     goEditPage(row) {
       encomendasID = row.id;
-      this.$router.push(`/sindico/ControleEncomendas/edit/${encomendasID}`);
+      this.$router.push(`/porteiro/ControleEncomendas/edit/${encomendasID}`);
     },
     userDelete() {
       axios.delete(`http://localhost:3000/encomendas/${encomendasID}`)

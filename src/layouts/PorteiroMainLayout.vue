@@ -14,6 +14,15 @@
         <q-toolbar-title>
           Cond°Orders
         </q-toolbar-title>
+        <q-btn-dropdown flat color="white" icon="person">
+          <q-list>
+            <q-item clickable v-close-popup @click="logoutClick">
+              <q-item-section>
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -97,6 +106,12 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
     };
+  },
+  methods: {
+    logoutClick() {
+      sessionStorage.clear();
+      window.location.href = '/';
+    },
   },
 });
 </script>

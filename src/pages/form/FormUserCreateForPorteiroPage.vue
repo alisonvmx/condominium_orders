@@ -28,8 +28,6 @@ export default {
       group: '',
       groups: [
         { label: 'inquilino', value: 'inquilino' },
-        { label: 'sindico', value: 'sindico' },
-        { label: 'porteiro', value: 'porteiro' },
       ],
       inputRules: [
         (val) => {
