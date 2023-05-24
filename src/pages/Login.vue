@@ -56,9 +56,25 @@
 import { ref, reactive } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 const router = useRouter();
 const options = ref(['inquilino', 'sindico', 'porteiro']);
+
+const $q = useQuasar();
+
+// function alert() {
+//   $q.dialog({
+//     message: 'Usuario e/ou chave de acesso invalida!',
+//   });
+// }
+
+function triggerNegative() {
+  $q.notify({
+    type: 'negative',
+    message: 'Usuario e/ou Chave inválida!',
+  });
+}
 
 const user = reactive({
   cpf: '',
@@ -79,6 +95,7 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
+      triggerNegative();
     }
     if (tipoUsuario === 'porteiro') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -91,6 +108,7 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
+      triggerNegative();
     }
     if (tipoUsuario === 'sindico') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -103,6 +121,8 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
+      // eslint-disable-next-line no-console
+      triggerNegative();
     }
   } catch (error) {
     // eslint-disable-next-line no-console
