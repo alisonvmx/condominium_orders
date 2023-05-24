@@ -4,8 +4,8 @@
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="apartamento.id" label="ID" class="q-mb-md" disable=""/>
-      <q-input v-model="apartamento.numeracao_apartamento" label="N Apartamento" class="q-mb-md" />
-      <q-select v-model="apartamento.inquilino" :options="apartamento.inquilinos" label="CPF Inquilino" class="q-mb-md" />
+      <q-input v-model="apartamento.numeracao_apartamento" label="N Apartamento" class="q-mb-md" :rules="[ val => val.length >= 3 && val.length <=4 || 'Digite um apartamento válido' ]"/>
+      <q-select v-model="apartamento.inquilino" :options="apartamento.inquilinos" label="CPF Inquilino" class="q-mb-md"  mask="###.###.###-##"/>
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>

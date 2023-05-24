@@ -3,12 +3,12 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-input v-model="name" label="Name" class="q-mb-md" />
-      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
-      <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
-      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
+      <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]"/>
+      <q-input v-model="cpf" mask="###.###.###-##" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]"/>
+      <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules"/>
+      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Perfil:' ]"/>
 
-      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
+      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md"/>
     </q-form>
   </q-page>
 </template>
@@ -26,6 +26,7 @@ export default {
       name: '',
       variable: '',
       group: '',
+      cpf: '',
       groups: [
         { label: 'inquilino', value: 'inquilino' },
         { label: 'sindico', value: 'sindico' },
@@ -34,9 +35,9 @@ export default {
       inputRules: [
         (val) => {
           if (this.group.value === 'inquilino') {
-            return (val.length >= 0 && val.length <= 4);
+            return (val.length >= 2 && val.length <= 4);
           }
-          return (val.length >= 5 && val.length <= 10);
+          return (val.length >= 6 && val.length <= 10);
         },
       ],
     };
@@ -85,8 +86,8 @@ export default {
           id: generateRandomNumber(1, 5000),
           nome: this.name,
           cpf: this.cpf,
-          chave_privada: Math.random(),
-          type_user: this.groupvalue,
+          chave_privada: this.variable,
+          type_user: this.group.value,
         };
       }
       axios.post('http://localhost:3000/usuarios', formData)

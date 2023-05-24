@@ -3,11 +3,11 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-input v-model="identificacao" label="Descrição" class="q-mb-md" />
-      <q-select v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" />
-      <q-select v-model="recebedor" :options="recebedores" label="Recebedor" class="q-mb-md" />
-      <q-input v-model="data_de_recebimento" label="Data de Recebimento" class="q-mb-md" />
-      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
+      <q-input v-model="identificacao" label="Descrição" class="q-mb-md" :rules="[ val => val.length >= 3 || 'Digite uma descrição:' ]"/>
+      <q-select v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
+      <q-select v-model="recebedor" :options="recebedores" label="Recebedor" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Recebedor:' ]"/>
+      <q-input v-model="data_de_recebimento" label="Data de Recebimento" class="q-mb-md" mask="##/##/##" :rules="[ val => val.length >= 8 || 'Digite uma data válida:' ]"/>
+      <q-btn type="submit" label="Submit" color="primary" mask="##/##/##" class="q-mb-md" />
     </q-form>
   </q-page>
 </template>

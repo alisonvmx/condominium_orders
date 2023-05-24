@@ -3,111 +3,66 @@
     {
       "id": "1",
       "nome": "jose",
-      "cpf": "45515135734",
-      "chave_privada": "456465465476",
+      "cpf": "455.151.357-34",
+      "chave_privada": "4564654",
       "type_user": "porteiro"
     },
     {
       "id": "2",
+      "nome": "Muniz",
+      "cpf": "111.111.111-00",
+      "chave_privada": "123qwe",
+      "type_user": "sindico"
+    },
+    {
+      "id": "3",
       "nome": "Czar",
-      "cpf": "00011122200",
+      "cpf": "000.111.222-00",
       "apartamento": "103b",
       "type_user": "inquilino"
     },
     {
-      "id": "3",
-      "nome": "rodrigo",
-      "cpf": "11122233300",
-      "chave_privada": "1234qwer",
-      "type_user": "sindico"
-    },
-    {
       "id": "4",
-      "nome": "jan",
-      "cpf": "33344455500",
+      "nome": "Jao",
+      "cpf": "534.421.222-00",
       "apartamento": "104b",
       "type_user": "inquilino"
     },
     {
       "id": "5",
-      "nome": "administrador",
-      "cpf": "admin",
-      "chave_privada": "admin",
-      "type_user": "sindico"
-    },
-    {
-      "id": 3647,
-      "nome": "janclaudio",
-      "cpf": "22233344400",
-      "apartamento": "108b",
+      "nome": "Julio",
+      "cpf": "342.422.111-00",
+      "apartamento": "105b",
       "type_user": "inquilino"
-    },
-    {
-      "id": 4721,
-      "nome": "julio",
-      "cpf": "454654654654",
-      "apartamento": "105B",
-      "chave_privada": "454544",
-      "type_user": "porteiro"
-    },
-    {
-      "id": 1370,
-      "nome": "Julio Alves",
-      "cpf": "46504654515",
-      "apartamento": "108D",
-      "type_user": "inquilino"
-    },
-    {
-      "id": 3677,
-      "nome": "julio",
-      "cpf": "454545454",
-      "chave_privada": 0.40497464611664546
     }
   ],
   "encomendas": [
     {
       "identificacao": "caixa kabum 3!",
       "destinatario": "103b",
-      "coletor": "00011122200",
-      "recebedor": "05405305200",
-      "data_de_recebimento": "10/03/2023",
-      "data_de_retirada": "15/02/2023",
+      "coletor": "000.111.222-00",
+      "recebedor": null,
+      "data_de_recebimento": "10/03/20",
+      "data_de_retirada": "00/00/00",
       "id": "1"
     },
     {
       "identificacao": "cx shoope",
-      "destinatario": "103b",
-      "coletor": "00011122200",
-      "recebedor": "05405305200",
+      "destinatario": "104b",
+      "coletor": "534.421.222-00",
+      "recebedor": "455.151.357-34",
       "data_de_recebimento": "01/02/2023",
       "data_de_retirada": "15/02/2023",
       "id": "2"
     },
     {
-      "identificacao": "caixa",
-      "destinatario": "103b",
-      "coletor": "00011122200",
-      "recebedor": "05405305200",
-      "data_de_recebimento": "08/03/2023",
-      "data_de_retirada": "18/03/2023",
-      "id": "3"
-    },
-    {
-      "identificacao": "mercadoria teste",
+      "identificacao": "carta",
       "destinatario": "105b",
-      "coletor": "00011122200",
-      "recebedor": "11122233300",
-      "data_de_recebimento": "23/05/2023",
+      "coletor": "",
+      "recebedor": "455.151.357-34",
+      "data_de_recebimento": "01/02/2023",
       "data_de_retirada": "",
-      "id": 1383
-    },
-    {
-      "identificacao": "Kabum!",
-      "destinatario": "104b",
-      "coletor": "680456456405",
-      "recebedor": "05405305200",
-      "data_de_recebimento": "25/05/2023",
-      "id": 2145
+      "id": "3"
     }
   ],
   "apartamentos": [
@@ -122,55 +77,9 @@
       "cpf_inquilino": "33344455500"
     },
     {
-      "id": 4990,
+      "id": "3",
       "numeracao_apartamento": "102b",
       "cpf_inquilino": "07507607700"
-    },
-    {
-      "id": 1972,
-      "numeracao_apartamento": "110b",
-      "cpf_inquilino": "11122233300"
-    },
-    {
-      "id": 240,
-      "numeracao_apartamento": "111b",
-      "cpf_inquilino": "33344455500"
-    },
-    {
-      "numeracao_apartamento": "105b",
-      "cpf_inquilino": "33344455500",
-      "id": 2909
-    },
-    {
-      "numeracao_apartamento": "120b",
-      "cpf_inquilino": "454654654654",
-      "id": 2906
-    },
-    {
-      "id": 1112,
-      "numeracao_apartamento": "135b"
-    },
-    {
-      "numeracao_apartamento": "108D",
-      "cpf_inquilino": "33344455500",
-      "id": 3254
-    },
-    {
-      "id": 1156,
-      "numeracao_apartamento": "140b"
-    },
-    {
-      "id": 1822,
-      "numeracao_apartamento": "145b"
-    },
-    {
-      "id": 2314,
-      "numeracao_apartamento": "150b"
-    },
-    {
-      "id": 1951,
-      "numeracao_apartamento": "10b",
-      "cpf_inquilino": "00011122200"
     }
   ]
 }

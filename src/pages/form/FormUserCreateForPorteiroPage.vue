@@ -6,8 +6,7 @@
       <q-input v-model="name" label="Name" class="q-mb-md" />
       <q-input v-model="cpf" label="CPF" class="q-mb-md" />
       <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
-      <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" />
-
+      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
@@ -32,9 +31,9 @@ export default {
       inputRules: [
         (val) => {
           if (this.group.value === 'inquilino') {
-            return (val.length >= 0 && val.length <= 4);
+            return (val.length >= 2 && val.length <= 4);
           }
-          return (val.length >= 5 && val.length <= 10);
+          return (val.length >= 6 && val.length <= 10);
         },
       ],
     };
@@ -84,7 +83,7 @@ export default {
           nome: this.name,
           cpf: this.cpf,
           chave_privada: Math.random(),
-          type_user: this.groupvalue,
+          type_user: this.group.value,
         };
       }
       axios.post('http://localhost:3000/usuarios', formData)

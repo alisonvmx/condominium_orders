@@ -8,9 +8,10 @@
 import axios from 'axios';
 
 const columns = [
-  { name: 'codigo', field: 'id', label: 'Codigo' },
+  { name: 'codigo', field: 'id', label: 'Código' },
+  { name: 'destinatario', field: 'destinatario', label: 'Apartamento' },
   { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
-  { name: 'inquilino', field: 'coletor', label: 'Inquilino' },
+  { name: 'inquilino', field: 'coletor', label: 'Coletor' },
   { name: 'data_de_retirada', field: 'data_de_retirada', label: 'Data de Retirada' },
 ];
 

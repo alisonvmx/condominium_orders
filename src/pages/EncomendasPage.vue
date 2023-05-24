@@ -17,6 +17,7 @@ import axios from 'axios';
   */
 
 const columns = [
+  { name: 'id', field: 'id', label: 'Código' },
   { name: 'Apartamento', field: 'destinatario', label: 'Apartamento' },
   { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
   { name: 'recebedor', field: 'recebedor', label: 'Recebedor' },

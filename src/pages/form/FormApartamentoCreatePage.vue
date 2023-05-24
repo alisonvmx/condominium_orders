@@ -3,7 +3,7 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-input v-model="numeracao_apartamento" label="N Apartamento" class="q-mb-md" />
+      <q-input v-model="numeracao_apartamento" label="N Apartamento" class="q-mb-md" :rules="[ val => val.length >= 3 && val.length <=4 || 'Digite um apartamento válido' ]"/>
       <q-select v-model="cpf" :options="cpfs" label="CPF Inquilino" class="q-mb-md" />
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>

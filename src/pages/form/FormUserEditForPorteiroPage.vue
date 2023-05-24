@@ -39,9 +39,9 @@ export default {
       inputRules: [
         (val) => {
           if (this.user.group.value === 'inquilino') {
-            return (val.length >= 0 && val.length <= 4);
+            return (val.length >= 2 && val.length <= 4);
           }
-          return (val.length >= 5 && val.length <= 10);
+          return (val.length >= 6 && val.length <= 10);
         },
       ],
     };

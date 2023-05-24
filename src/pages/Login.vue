@@ -11,8 +11,7 @@
 
     <q-form class="flex justify-center items-center column" @submit.prevent="login">
       <q-input class="q-mb-xs" rounded outlined bg-color="white" color="black"
-      v-model="user.cpf" label="Usuário" maxlength="11"
-      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+      v-model="user.cpf" label="Usuário" mask="###.###.###-##">
         <template #prepend>
           <q-avatar>
             <img src="/src/assets/user.svg">
