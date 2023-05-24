@@ -66,7 +66,7 @@ export default {
       formData = {
         id: generateRandomNumber(1, 5000),
         numeracao_apartamento: this.numeracao_apartamento,
-        cpf_inquilino: this.group,
+        cpf_inquilino: this.cpf,
       };
 
       axios.post('http://localhost:3000/apartamentos', formData)

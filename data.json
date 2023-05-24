@@ -154,6 +154,23 @@
       "numeracao_apartamento": "108D",
       "cpf_inquilino": "33344455500",
       "id": 3254
+    },
+    {
+      "id": 1156,
+      "numeracao_apartamento": "140b"
+    },
+    {
+      "id": 1822,
+      "numeracao_apartamento": "145b"
+    },
+    {
+      "id": 2314,
+      "numeracao_apartamento": "150b"
+    },
+    {
+      "id": 1951,
+      "numeracao_apartamento": "10b",
+      "cpf_inquilino": "00011122200"
     }
   ]
 }
