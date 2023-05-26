@@ -11,7 +11,7 @@
 
     <q-form class="flex justify-center items-center column" @submit.prevent="login">
       <q-input class="q-mb-xs" rounded outlined bg-color="white" color="black"
-      v-model="user.cpf" label="Usuário" mask="###.###.###-##">
+      v-model="user.cpf" label="Usuário" mask="###.###.###-##" required>
         <template #prepend>
           <q-avatar>
             <img src="/src/assets/user.svg">
@@ -19,7 +19,7 @@
         </template>
       </q-input>
       <q-input rounded outlined bg-color="white" color="black" v-model="user.password"
-      label="Chave de Acesso" type="password" maxlength="12">
+      label="Chave de Acesso" type="password" maxlength="12" required>
         <template #prepend>
           <q-avatar>
             <img src="/src/assets/house.svg">
