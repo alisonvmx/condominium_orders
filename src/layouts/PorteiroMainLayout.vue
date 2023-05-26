@@ -56,6 +56,11 @@
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 
+if (sessionStorage.type !== '291196291196') {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
+
 const linksList = [
   {
     title: 'Home',
@@ -119,6 +124,6 @@ export default defineComponent({
 a{
   text-decoration: none;
   color: black;
-  font-size: 1.1vw;
+  font-size: 3.1vw;
 }
 </style>
