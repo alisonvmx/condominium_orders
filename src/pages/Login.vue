@@ -96,7 +96,9 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
-      triggerNegative();
+      if (sessionStorage.pag !== 'logado') {
+        triggerNegative();
+      }
     }
     if (tipoUsuario === 'porteiro') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -109,7 +111,9 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
-      triggerNegative();
+      if (sessionStorage.pag !== 'logado') {
+        triggerNegative();
+      }
     }
     if (tipoUsuario === 'sindico') {
       const response = await axios.get('http://localhost:3000/usuarios');
@@ -122,8 +126,9 @@ async function getUser() {
           sessionStorage.setItem('pag', 'logado');
         }
       });
-      // eslint-disable-next-line no-console
-      triggerNegative();
+      if (sessionStorage.pag !== 'logado') {
+        triggerNegative();
+      }
     }
   } catch (error) {
     // eslint-disable-next-line no-console
