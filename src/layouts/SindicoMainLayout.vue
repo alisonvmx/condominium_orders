@@ -63,27 +63,27 @@ const linksList = [
   },
   {
     title: 'Encomendas',
-    icon: 'school',
+    icon: 'card_giftcard',
     link: '/sindico/Encomendas',
   },
   {
     title: 'Historico',
-    icon: 'code',
+    icon: 'history',
     link: '/sindico/Historico',
   },
   {
     title: 'Controle De Encomendas',
-    icon: 'chat',
+    icon: 'shuffle',
     link: '/sindico/ControleEncomendas',
   },
   {
     title: 'Controle De Usuários',
-    icon: 'record_voice_over',
+    icon: 'supervisor_account',
     link: '/sindico/ControleUsuarios',
   },
   {
     title: 'Controle De Apartamentos',
-    icon: 'rss_feed',
+    icon: 'room_preferences',
     link: '/sindico/ControleApartamentos',
   },
 ];
