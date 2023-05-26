@@ -64,27 +64,27 @@ const linksList = [
   },
   {
     title: 'Encomendas',
-    icon: 'school',
+    icon: 'card_giftcard',
     link: '/porteiro/Encomendas',
   },
   {
     title: 'Historico',
-    icon: 'code',
+    icon: 'history',
     link: '/porteiro/Historico',
   },
   {
     title: 'Controle De Encomendas',
-    icon: 'chat',
+    icon: 'shuffle',
     link: '/porteiro/ControleEncomendas',
   },
   {
     title: 'Controle De Usuários',
-    icon: 'record_voice_over',
+    icon: 'supervisor_account',
     link: '/porteiro/ControleUsuarios',
   },
   {
     title: 'Controle De Apartamentos',
-    icon: 'rss_feed',
+    icon: 'room_preferences',
     link: '/porteiro/ControleApartamentos',
   },
 ];

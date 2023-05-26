@@ -64,12 +64,12 @@ const linksList = [
   },
   {
     title: 'Encomendas',
-    icon: 'school',
+    icon: 'card_giftcard',
     link: '/inquilino/Encomendas',
   },
   {
     title: 'Historico',
-    icon: 'code',
+    icon: 'history',
     link: '/inquilino/Historico',
   },
 ];
