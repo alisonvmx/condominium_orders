@@ -6,7 +6,6 @@
       <q-input v-model="identificacao" label="Descrição" class="q-mb-md" :rules="[ val => val.length >= 3 || 'Digite uma descrição:' ]"/>
       <q-select v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
       <q-select v-model="recebedor" :options="recebedores" label="Recebedor" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Recebedor:' ]"/>
-      <q-input v-model="data_de_recebimento" label="Data de Recebimento" class="q-mb-md" mask="##/##/##" :rules="[ val => val.length >= 8 || 'Digite uma data válida:' ]"/>
       <q-btn type="submit" label="Submit" color="primary" mask="##/##/##" class="q-mb-md" />
     </q-form>
   </q-page>
@@ -78,6 +77,12 @@ export default {
       const url = window.location.href;
       const parts = url.split('/');
       const specificWord = parts[parts.length - 3];
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+
+      const formattedDate = `${day}/${month}/${year}`;
 
       function generateRandomNumber(min, max) {
         min = Math.ceil(min);
@@ -90,7 +95,7 @@ export default {
         identificacao: this.identificacao,
         destinatario: this.apartamento,
         recebedor: this.recebedor,
-        data_de_recebimento: this.data_de_recebimento,
+        data_de_recebimento: formattedDate,
 
       };
 

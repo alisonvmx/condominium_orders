@@ -9,7 +9,6 @@
       <q-select v-model="encomenda.coletor" :options="encomenda.coletores" label="Coletores" mask="###.###.###-##" class="q-mb-md"/>
       <q-select v-model="encomenda.recebedor" :options="encomenda.recebedores" label="Recebedor" mask="###.###.###-##" class="q-mb-md"/>
       <q-input v-model="encomenda.data_de_recebimento" label="Data de Recebimento" mask="##/##/##" class="q-mb-md" :rules="[ val => val.length >= 8 || 'Digite uma data válida:' ]"/>
-      <q-input v-model="encomenda.data_de_retirada" label="Data de Retirada" mask="##/##/##" class="q-mb-md" :rules="[ val => val.length >= 8 || 'Digite uma data válida:' ]"/>
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
@@ -88,6 +87,12 @@ export default {
       const parts = url.split('/');
       const specificWord = parts[parts.length - 4];
       const { id } = this.$route.params;
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+
+      const formattedDate = `${day}/${month}/${year}`;
 
       // eslint-disable-next-line prefer-const
       formData = {
@@ -97,7 +102,7 @@ export default {
         coletor: this.encomenda.coletor,
         recebedor: this.encomenda.recebedor,
         data_de_recebimento: this.encomenda.data_de_recebimento,
-        data_de_retirada: this.encomenda.data_de_retirada,
+        data_de_retirada: formattedDate,
       };
 
       axios.put(`http://localhost:3000/encomendas/${id}`, formData)
