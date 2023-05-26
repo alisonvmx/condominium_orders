@@ -40,10 +40,10 @@
     {
       "identificacao": "caixa kabum 3!",
       "destinatario": "103b",
-      "coletor": "000.111.222-00",
-      "recebedor": null,
-      "data_de_recebimento": "10/03/20",
-      "data_de_retirada": "00/00/00",
+      "coletor": "",
+      "recebedor": "455.151.357-34",
+      "data_de_recebimento": "10/03/2023",
+      "data_de_retirada": "",
       "id": "1"
     },
     {
@@ -73,13 +73,33 @@
     },
     {
       "id": "2",
-      "numeracao_apartamento": "104b",
+      "numeracao_apartamento": "103",
       "cpf_inquilino": "33344455500"
     },
     {
       "id": "3",
       "numeracao_apartamento": "102b",
       "cpf_inquilino": "07507607700"
+    },
+    {
+      "id": 4641,
+      "numeracao_apartamento": "110b",
+      "cpf_inquilino": "Disponivel"
+    },
+    {
+      "id": 2697,
+      "numeracao_apartamento": "100b",
+      "cpf_inquilino": "Disponivel"
+    },
+    {
+      "id": 4659,
+      "numeracao_apartamento": "150b",
+      "cpf_inquilino": "Disponivel"
+    },
+    {
+      "id": 1122,
+      "numeracao_apartamento": "200b",
+      "cpf_inquilino": "Disponivel"
     }
   ]
 }

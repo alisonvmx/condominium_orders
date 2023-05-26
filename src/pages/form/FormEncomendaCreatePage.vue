@@ -96,6 +96,8 @@ export default {
         destinatario: this.apartamento,
         recebedor: this.recebedor,
         data_de_recebimento: formattedDate,
+        coletor: '',
+        data_de_retirada: '',
 
       };
 

@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       numeracao_apartamento: '',
-      cpf: 'Selecione o cpf do inquilino:',
+      cpf: 'Disponivel',
       cpfs: [],
     };
   },

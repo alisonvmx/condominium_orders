@@ -3,10 +3,12 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]" />
-      <q-input v-model="cpf" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]" />
-      <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
-      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
+      <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]"/>
+      <q-input v-model="cpf" mask="###.###.###-##" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]"/>
+      <q-select v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
+      <q-input v-model="group" label="Grupo" class="q-mb-md" readonly=""/>
+
+      <q-btn type="submit" label="Submit" color="primary" class="q-mt-md"/>
     </q-form>
   </q-page>
 </template>
@@ -19,14 +21,16 @@ import { Notify } from 'quasar';
 export default {
   name: 'FormPage',
   directives: { mask: VueMaskDirective },
+  beforeMount() {
+    this.obterApartamentos();
+  },
   data() {
     return {
       name: '',
-      variable: '',
-      group: '',
-      groups: [
-        { label: 'inquilino', value: 'inquilino' },
-      ],
+      cpf: '',
+      apartamento: '',
+      apartamentos: [],
+      group: 'inquilino',
       inputRules: [
         (val) => {
           if (this.group.value === 'inquilino') {
@@ -36,23 +40,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    inputlabel() {
-      if (this.group.value === 'inquilino') {
-        return 'Apartamento';
-      }
-      return 'Chave privada';
-    },
-    inputMask() {
-      if (this.group.value === 'inquilino') {
-        return 'Apartamento';
-      }
-      return 'Chave privada';
-    },
-    disableCond() {
-      return this.group.value !== 'inquilino';
-    },
   },
 
   methods: {
@@ -67,29 +54,40 @@ export default {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-      if (this.group.value === 'inquilino') {
-        formData = {
-          id: generateRandomNumber(1, 5000),
-          nome: this.name,
-          cpf: this.cpf,
-          apartamento: this.variable,
-          type_user: this.group.value,
 
-        };
-      } else {
-        formData = {
-          id: generateRandomNumber(1, 5000),
-          nome: this.name,
-          cpf: this.cpf,
-          chave_privada: Math.random(),
-          type_user: this.group.value,
-        };
-      }
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: generateRandomNumber(1, 5000),
+        nome: this.name,
+        cpf: this.cpf,
+        apartamento: this.apartamento,
+        type_user: this.group,
+      };
+
       axios.post('http://localhost:3000/usuarios', formData)
         .then((response) => {
+          // eslint-disable-next-line no-console
           console.log(response);
-          console.log(`/${specificWord}/ControleUsuarios`);
           this.$router.push(`/${specificWord}/ControleUsuarios`);
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async obterApartamentos() {
+      await axios.get('http://localhost:3000/apartamentos')
+        .then((response) => {
+          const dadosApartamentos = response.data;
+          dadosApartamentos.forEach((dado) => {
+            // eslint-disable-next-line no-prototype-builtins
+            if (dado.cpf_inquilino === 'Disponivel') {
+              this.apartamentos.push(dado.numeracao_apartamento);
+            }
+          });
         })
         .catch((error) => {
           Notify.create({

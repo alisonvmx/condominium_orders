@@ -8,7 +8,7 @@
       <q-select v-model="encomenda.destinatario" :options="encomenda.destinatarios" label="Apartamento" mask="###.###.###-##" class="q-mb-md"/>
       <q-select v-model="encomenda.coletor" :options="encomenda.coletores" label="Coletores" mask="###.###.###-##" class="q-mb-md"/>
       <q-select v-model="encomenda.recebedor" :options="encomenda.recebedores" label="Recebedor" mask="###.###.###-##" class="q-mb-md"/>
-      <q-input v-model="encomenda.data_de_recebimento" label="Data de Recebimento" mask="##/##/##" class="q-mb-md" :rules="[ val => val.length >= 8 || 'Digite uma data válida:' ]"/>
+      <q-input v-model="encomenda.data_de_recebimento" label="Data de Recebimento" mask="##/##/####" class="q-mb-md" :rules="[ val => val.length >= 10 || 'Digite uma data válida:' ]"/>
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>

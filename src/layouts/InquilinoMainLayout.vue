@@ -99,3 +99,10 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+a{
+  text-decoration: none;
+  color: black;
+  font-size: 1.1vw;
+}
+</style>
