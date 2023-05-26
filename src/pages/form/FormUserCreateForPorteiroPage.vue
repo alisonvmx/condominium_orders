@@ -3,10 +3,9 @@
 <template>
   <q-page>
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
-      <q-input v-model="name" label="Name" class="q-mb-md" />
-      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
+      <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]" />
+      <q-input v-model="cpf" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]" />
       <q-input v-model="variable" :label="inputlabel" class="q-mb-md" :rules="inputRules" :disable="disableCond"/>
-      <q-input v-model="cpf" label="CPF" class="q-mb-md" />
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
