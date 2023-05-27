@@ -108,6 +108,5 @@ export default defineComponent({
 a{
   text-decoration: none;
   color: black;
-  font-size: 3.1vw;
 }
 </style>

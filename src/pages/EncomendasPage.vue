@@ -26,15 +26,13 @@
 import axios from 'axios';
 import { Notify } from 'quasar';
 
+const apartamentos = [];
+
 /**
   * Quando carregar a página, acessar via AXIOS a API e obter a lista de entregas
   * Após isso, atualizar os dados da variável "rows"
   */
 // eslint-disable-next-line no-unused-vars
-let encomendasID;
-let apartamentoROW;
-let coletorEncomenda;
-let formData;
 
 const columns = [
   {
@@ -60,6 +58,7 @@ const columns = [
 export default {
   beforeMount() {
     this.chamarRotaBackend();
+    this.ObterApartamentos();
   },
   setup() {
     return {
@@ -73,8 +72,7 @@ export default {
     };
   },
   methods: {
-    openModal(row) {
-      encomendasID = row.id;
+    openModal() {
       this.showModal = true;
     },
     closeModal() {
@@ -101,15 +99,13 @@ export default {
         });
     },
     // eslint-disable-next-line no-shadow
-    async ObterColetor(apartamentoROW) {
+    async ObterApartamentos() {
       await axios.get('http://localhost:3000/apartamentos')
         .then((response) => {
-          response.data.forEach((user) => {
-            if (user.numeracao_apartamento.include(apartamentoROW)) {
-              coletorEncomenda = user.cpf_inquilino;
-            }
+          const apartamentosUsuario = response?.data;
+          apartamentosUsuario.forEach((apartamento) => {
+            apartamentos.push(apartamento);
           });
-          return coletorEncomenda;
         })
         .catch((error) => {
           Notify.create({
@@ -120,22 +116,40 @@ export default {
         });
     },
     retirarEncomenda(row) {
-      encomendasID = row.id;
-      apartamentoROW = row.destinatario;
-      // eslint-disable-next-line no-console
-      console.log(apartamentoROW);
+      let formData;
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = currentDate.getDate().toString().padStart(2, '0');
+      const formattedDate = `${day}/${month}/${year}`;
+      // eslint-disable-next-line no-shadow
+      function obterInquilino(row) {
+        let varInquilino;
+        // eslint-disable-next-line no-console
+        console.log(row.destinatario);
+        apartamentos.forEach((apartamento) => {
+          if (apartamento.numeracao_apartamento === row.destinatario) {
+            varInquilino = apartamento.cpf_inquilino;
+          }
+        });
+        return varInquilino;
+      }
       // eslint-disable-next-line no-undef
-      formData = {
-        // eslint-disable-next-line no-undef
-        coletor: this.ObterColetor(apartamentoROW),
-      };
+      const inquilino = obterInquilino(row);
       // eslint-disable-next-line no-console
-      console.log(formData);
-      axios.post(`http://localhost:3000/encomendas/${encomendasID}`, formData)
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          console.log(response);
-        })
+      console.log(inquilino);
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: row.id,
+        identificacao: row.identificacao,
+        destinatario: row.destinatario,
+        coletor: inquilino,
+        recebedor: row.recebedor,
+        data_de_recebimento: row.data_de_recebimento,
+        data_de_retirada: formattedDate,
+      };
+
+      axios.put(`http://localhost:3000/encomendas/${row.id}`, formData)
         .catch((error) => {
           Notify.create({
             color: 'negative',
