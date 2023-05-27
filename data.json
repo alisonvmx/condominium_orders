@@ -68,18 +68,18 @@
   "apartamentos": [
     {
       "numeracao_apartamento": "105b",
-      "cpf_inquilino": "00011122200",
+      "cpf_inquilino": "000.111.222-00",
       "id": "1"
     },
     {
       "id": "2",
       "numeracao_apartamento": "103b",
-      "cpf_inquilino": "33344455500"
+      "cpf_inquilino": "333.444.555-00"
     },
     {
       "id": "3",
       "numeracao_apartamento": "102b",
-      "cpf_inquilino": "07507607700"
+      "cpf_inquilino": "075.076.077-00"
     },
     {
       "id": 4641,
