@@ -12,10 +12,12 @@
             flat
             round
             dense
-            icon="edit"
+            icon="forward_to_inbox"
             style="width: 50%; border-radius: 0%; margin-top: 4%;"
             @click="retirarEncomenda(props.row)"
-          />
+          >
+            <q-tooltip class="bg-blue">Retirar Encomenda</q-tooltip>
+          </q-btn>
         </div>
       </template>
     </q-table>
@@ -136,8 +138,6 @@ export default {
       }
       // eslint-disable-next-line no-undef
       const inquilino = obterInquilino(row);
-      // eslint-disable-next-line no-console
-      console.log(inquilino);
       // eslint-disable-next-line prefer-const
       formData = {
         id: row.id,
@@ -150,6 +150,11 @@ export default {
       };
 
       axios.put(`http://localhost:3000/encomendas/${row.id}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
+          document.location.reload(true);
+        })
         .catch((error) => {
           Notify.create({
             color: 'negative',
