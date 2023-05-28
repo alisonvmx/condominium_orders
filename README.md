@@ -4,20 +4,18 @@ A Quasar Project
 
 ## Install the dependencies
 ```bash
-yarn
-# or
 npm install
 ```
 
 ### inicar o projeto
 ```bash
-yarn dev
+npm run dev
 
 
 ```
 ### inicar a api
 ```bash
-yarn startApi
+json-server --watch data.json
 
 
 ```
