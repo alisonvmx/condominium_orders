@@ -18,6 +18,7 @@ import { VueMaskDirective } from 'vue-the-mask';
 import axios from 'axios';
 import { Notify } from 'quasar';
 
+const aparts = [];
 export default {
   name: 'FormPage',
   directives: { mask: VueMaskDirective },
@@ -68,6 +69,7 @@ export default {
         .then((response) => {
           // eslint-disable-next-line no-console
           console.log(response);
+          this.atualizarApartamento(this.cpf, this.apartamento);
           this.$router.push(`/${specificWord}/ControleUsuarios`);
         })
         .catch((error) => {
@@ -87,7 +89,40 @@ export default {
             if (dado.cpf_inquilino === 'Disponivel') {
               this.apartamentos.push(dado.numeracao_apartamento);
             }
+            aparts.push(dado);
           });
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async atualizarApartamento(cpf, apartamento) {
+      let formData;
+      function obterIdApartamento() {
+        let varId;
+        aparts.forEach((apart) => {
+          if (apart.numeracao_apartamento === apartamento) {
+            varId = apart.id;
+          }
+        });
+        return varId;
+      }
+      const varIdApartamento = obterIdApartamento();
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: varIdApartamento,
+        numeracao_apartamento: apartamento,
+        cpf_inquilino: cpf,
+      };
+
+      await axios.put(`http://localhost:3000/apartamentos/${varIdApartamento}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
         })
         .catch((error) => {
           Notify.create({

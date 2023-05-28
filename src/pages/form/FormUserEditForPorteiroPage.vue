@@ -18,6 +18,9 @@ import axios from 'axios';
 import { Notify } from 'quasar';
 import { useRoute } from 'vue-router';
 
+const aparts = [];
+let apartamentoAtual;
+let apartamentoNovo;
 export default {
   name: 'FormPage',
   directives: { mask: VueMaskDirective },
@@ -28,21 +31,13 @@ export default {
   data() {
     return {
       user: {
+        id: '',
         name: '',
         cpf: '',
         apartamento: '',
         apartamentos: [],
         group: 'inquilino',
       },
-
-      inputRules: [
-        (val) => {
-          if (this.user.group.value === 'inquilino') {
-            return (val.length >= 2 && val.length < 5);
-          }
-          return (val.length >= 6 && val.length <= 10);
-        },
-      ],
     };
   },
 
@@ -71,8 +66,11 @@ export default {
 
       axios.put(`http://localhost:3000/usuarios/${id}`, formData)
         .then((response) => {
-          // eslint-disable-next-line no-console
-          console.log(response);
+          apartamentoNovo = this.user.apartamento;
+          this.atualizarApartamento(response.data.cpf, response.data.apartamento);
+          if (apartamentoAtual !== apartamentoNovo) {
+            this.disponibilizarApartamento(apartamentoAtual);
+          }
           this.$router.push(`/${specificWord}/ControleUsuarios`);
         })
         .catch((error) => {
@@ -89,9 +87,11 @@ export default {
 
       await axios.get(`http://localhost:3000/usuarios/${id}`)
         .then((response) => {
+          this.user.id = response.data.id;
           this.user.name = response.data.nome;
           this.user.cpf = response.data.cpf;
           this.user.apartamento = response.data.apartamento;
+          apartamentoAtual = response.data.apartamento;
         })
         .catch((error) => {
           Notify.create({
@@ -110,7 +110,74 @@ export default {
             if (dado.cpf_inquilino === 'Disponivel') {
               this.user.apartamentos.push(dado.numeracao_apartamento);
             }
+            aparts.push(dado);
           });
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async atualizarApartamento(cpf, apartamento) {
+      let formData;
+      function obterIdApartamento() {
+        let varId;
+        aparts.forEach((apart) => {
+          if (apart.numeracao_apartamento === apartamento) {
+            varId = apart.id;
+          }
+        });
+        return varId;
+      }
+      const varIdApartamento = obterIdApartamento();
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: varIdApartamento,
+        numeracao_apartamento: apartamento,
+        cpf_inquilino: cpf,
+      };
+
+      await axios.put(`http://localhost:3000/apartamentos/${varIdApartamento}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    // eslint-disable-next-line no-shadow
+    async disponibilizarApartamento(apartamentoAtual) {
+      let formData;
+      const apartAtual = apartamentoAtual;
+      function obterIdApartamento() {
+        let varId;
+        aparts.forEach((apart) => {
+          if (apart.numeracao_apartamento === apartAtual) {
+            varId = apart.id;
+          }
+        });
+        return varId;
+      }
+      const varIdApartamento = obterIdApartamento();
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: varIdApartamento,
+        numeracao_apartamento: apartAtual,
+        cpf_inquilino: 'Disponivel',
+      };
+
+      await axios.put(`http://localhost:3000/apartamentos/${varIdApartamento}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
         })
         .catch((error) => {
           Notify.create({

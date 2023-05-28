@@ -91,7 +91,7 @@ async function getUser() {
       usuarios.forEach((usuario) => {
         if (usuario.cpf === user.cpf && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
           router.replace('/inquilino');
-          localStorage.setItem('infoUsuario', usuario.apartamento);
+          localStorage.setItem('infoUsuario', user.password);
           sessionStorage.setItem('type', '99154724');
           sessionStorage.setItem('pag', 'logado');
         }

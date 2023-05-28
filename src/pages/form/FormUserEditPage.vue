@@ -18,11 +18,15 @@ import axios from 'axios';
 import { Notify } from 'quasar';
 import { useRoute } from 'vue-router';
 
+const aparts = [];
+let apartamentoAtual;
+let apartamentoNovo;
 export default {
   name: 'FormPage',
   directives: { mask: VueMaskDirective },
   beforeMount() {
     this.chamarRotaBackend();
+    this.obterApartamentos();
   },
   data() {
     return {
@@ -98,7 +102,11 @@ export default {
 
       axios.put(`http://localhost:3000/usuarios/${id}`, formData)
         .then((response) => {
-          console.log(response);
+          apartamentoNovo = this.user.variable;
+          this.atualizarApartamento(response.data.cpf, response.data.apartamento);
+          if (apartamentoAtual !== apartamentoNovo) {
+            this.disponibilizarApartamento(apartamentoAtual);
+          }
           this.$router.push(`/${specificWord}/ControleUsuarios`);
         })
         .catch((error) => {
@@ -120,9 +128,92 @@ export default {
           this.user.cpf = response.data.cpf;
           if (response.data.type_user === 'inquilino') {
             this.user.variable = response.data.apartamento;
+            apartamentoAtual = response.data.apartamento;
           } else {
             this.user.variable = response.data.chave_privada;
           }
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async obterApartamentos() {
+      await axios.get('http://localhost:3000/apartamentos')
+        .then((response) => {
+          const dadosApartamentos = response.data;
+          dadosApartamentos.forEach((dado) => {
+            aparts.push(dado);
+          });
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    async atualizarApartamento(cpf, apartamento) {
+      let formData;
+      function obterIdApartamento() {
+        let varId;
+        aparts.forEach((apart) => {
+          if (apart.numeracao_apartamento === apartamento) {
+            varId = apart.id;
+          }
+        });
+        return varId;
+      }
+      const varIdApartamento = obterIdApartamento();
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: varIdApartamento,
+        numeracao_apartamento: this.user.variable,
+        cpf_inquilino: cpf,
+      };
+
+      await axios.put(`http://localhost:3000/apartamentos/${varIdApartamento}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
+        })
+        .catch((error) => {
+          Notify.create({
+            color: 'negative',
+            message: `Um erro ocorreu: ${error.message}`,
+            position: 'top',
+          });
+        });
+    },
+    // eslint-disable-next-line no-shadow
+    async disponibilizarApartamento(apartamentoAtual) {
+      let formData;
+      const apartAtual = apartamentoAtual;
+      function obterIdApartamento() {
+        let varId;
+        aparts.forEach((apart) => {
+          if (apart.numeracao_apartamento === apartAtual) {
+            varId = apart.id;
+          }
+        });
+        return varId;
+      }
+      const varIdApartamento = obterIdApartamento();
+      // eslint-disable-next-line prefer-const
+      formData = {
+        id: varIdApartamento,
+        numeracao_apartamento: apartAtual,
+        cpf_inquilino: 'Disponivel',
+      };
+
+      await axios.put(`http://localhost:3000/apartamentos/${varIdApartamento}`, formData)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
         })
         .catch((error) => {
           Notify.create({
