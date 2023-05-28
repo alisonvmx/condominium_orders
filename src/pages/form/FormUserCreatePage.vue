@@ -6,7 +6,7 @@
       <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]"/>
       <q-input v-model="cpf" mask="###.###.###-##" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]"/>
       <q-select v-if="group == 'inquilino'" v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
-      <q-input v-else-if="group !== 'inquilino'" v-model="chave_privada" label="Chave Privada" class="q-mb-md" :rules="[ val => val.length >= 6 && val.length <= 12|| 'Digite um CPF válido:' ]"/>
+      <q-input v-else-if="group !== 'inquilino'" v-model="chave_privada" label="Chave Privada" class="q-mb-md" :rules="[ val => val.length >= 6 && val.length <= 12|| 'Digite uma Senha válida:' ]"/>
       <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Perfil:' ]"/>
 
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md"/>
@@ -35,7 +35,7 @@ export default {
       apartamento: '',
       apartamentos: [],
       chave_privada: '',
-      group: options[0],
+      group: '',
       cpf: '',
       groups: options,
     };
@@ -53,7 +53,7 @@ export default {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-      if (this.group.value === 'inquilino') {
+      if (this.group === 'inquilino') {
         formData = {
           id: generateRandomNumber(1, 5000),
           nome: this.name,
