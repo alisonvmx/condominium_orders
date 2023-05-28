@@ -75,6 +75,15 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'apartamento',
+    required: true,
+    label: 'Apartamento',
+    align: 'left',
+    field: (row) => row.apartamento,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
     name: 'name',
     required: true,
     label: 'Nome',

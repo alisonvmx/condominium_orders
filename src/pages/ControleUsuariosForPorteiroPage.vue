@@ -43,7 +43,7 @@
             <div class="text-h6">Você tem certeza que irá deletar esse usuário</div>
           </q-card-main>
         </q-card-section>
-        <q-card-actions align="right">
+        <q-card-actions aligm="right">
           <q-btn color="red" label="deletar" @click="userDelete()" />
           <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
@@ -70,6 +70,15 @@ const columns = [
     label: 'id',
     align: 'left',
     field: (row) => row.id,
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: 'apartamento',
+    required: true,
+    label: 'Apartamento',
+    align: 'left',
+    field: (row) => row.apartamento,
     format: (val) => `${val}`,
     sortable: true,
   },

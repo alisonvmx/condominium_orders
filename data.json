@@ -27,6 +27,13 @@
       "cpf": "999.382.668-62",
       "apartamento": "102b",
       "type_user": "inquilino"
+    },
+    {
+      "id": 854,
+      "nome": "Cesar",
+      "cpf": "343.432.636-32",
+      "apartamento": "103b",
+      "type_user": "inquilino"
     }
   ],
   "encomendas": [
@@ -90,7 +97,7 @@
     {
       "id": 3,
       "numeracao_apartamento": "103b",
-      "cpf_inquilino": "Disponivel"
+      "cpf_inquilino": "343.432.636-32"
     },
     {
       "id": 4641,
@@ -115,6 +122,11 @@
     {
       "id": 2472,
       "numeracao_apartamento": "108b",
+      "cpf_inquilino": "Disponivel"
+    },
+    {
+      "id": 561,
+      "numeracao_apartamento": "109b",
       "cpf_inquilino": "Disponivel"
     }
   ]
