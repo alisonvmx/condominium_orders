@@ -25,8 +25,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { Notify } from 'quasar';
+import { getApartments } from 'src/services/apartmentRequests';
+import { getOrders, updateOrder } from 'src/services/orderRequests';
 
 const apartamentos = [];
 
@@ -41,16 +42,16 @@ const columns = [
     name: 'id', field: 'id', label: 'Código', align: 'center',
   },
   {
-    name: 'Apartamento', field: 'destinatario', label: 'Apartamento', align: 'center',
+    name: 'Apartamento', field: 'destinationApartment', label: 'Apartamento', align: 'center',
   },
   {
-    name: 'identificacao', field: 'identificacao', label: 'Identificação', align: 'center',
+    name: 'identificacao', field: 'identifier', label: 'Identificação', align: 'center',
   },
   {
-    name: 'recebedor', field: 'recebedor', label: 'Recebedor', align: 'center',
+    name: 'recebedor', field: 'collector', label: 'Recebedor', align: 'center',
   },
   {
-    name: 'data_de_recebimento', field: 'data_de_recebimento', label: 'Data de Recebimento', align: 'center',
+    name: 'data_de_recebimento', field: 'dateReceiving', label: 'Data de Recebimento', align: 'center',
   },
   {
     name: 'actions', field: 'actions', label: 'actions', align: 'center',
@@ -59,7 +60,7 @@ const columns = [
 
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    this.getData();
     this.ObterApartamentos();
   },
   setup() {
@@ -80,12 +81,12 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/Encomendas')
+    async getData() {
+      await getOrders()
         .then((response) => {
           const encomendasUsuario = response?.data;
           encomendasUsuario.forEach((encomendaUsuario) => {
-            if (encomendaUsuario.data_de_retirada === '') {
+            if (encomendaUsuario.dateWithdrawn === null) {
               this.encomendas.push(encomendaUsuario);
             }
           });
@@ -102,7 +103,7 @@ export default {
     },
     // eslint-disable-next-line no-shadow
     async ObterApartamentos() {
-      await axios.get('http://localhost:3000/apartamentos')
+      await getApartments()
         .then((response) => {
           const apartamentosUsuario = response?.data;
           apartamentosUsuario.forEach((apartamento) => {
@@ -123,15 +124,14 @@ export default {
       const year = currentDate.getFullYear();
       const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
       const day = currentDate.getDate().toString().padStart(2, '0');
-      const formattedDate = `${day}/${month}/${year}`;
+      const formattedDate = `${year}-${month}-${day}`;
       // eslint-disable-next-line no-shadow
       function obterInquilino(row) {
         let varInquilino;
         // eslint-disable-next-line no-console
-        console.log(row.destinatario);
         apartamentos.forEach((apartamento) => {
-          if (apartamento.numeracao_apartamento === row.destinatario) {
-            varInquilino = apartamento.cpf_inquilino;
+          if (apartamento.numApartment === row.destinationApartment) {
+            varInquilino = apartamento.tenant;
           }
         });
         return varInquilino;
@@ -141,18 +141,16 @@ export default {
       // eslint-disable-next-line prefer-const
       formData = {
         id: row.id,
-        identificacao: row.identificacao,
-        destinatario: row.destinatario,
-        coletor: inquilino,
-        recebedor: row.recebedor,
-        data_de_recebimento: row.data_de_recebimento,
-        data_de_retirada: formattedDate,
+        identifier: row.identifier,
+        destinationApartment: row.destinationApartment,
+        residentReceiving: inquilino,
+        collector: row.collector,
+        dateReceiving: row.dateReceiving,
+        dateWithdrawn: formattedDate,
       };
 
-      axios.put(`http://localhost:3000/encomendas/${row.id}`, formData)
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          console.log(response);
+      updateOrder(row.id, formData)
+        .then(() => {
           document.location.reload(true);
         })
         .catch((error) => {

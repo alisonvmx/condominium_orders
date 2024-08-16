@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getOrders } from 'src/services/orderRequests';
 
 const columns = [
   { name: 'codigo', field: 'id', label: 'Código' },
-  { name: 'destinatario', field: 'destinatario', label: 'Apartamento' },
-  { name: 'identificacao', field: 'identificacao', label: 'Identificação' },
-  { name: 'inquilino', field: 'coletor', label: 'Coletor' },
-  { name: 'data_de_retirada', field: 'data_de_retirada', label: 'Data de Retirada' },
+  { name: 'destinatario', field: 'destinationApartment', label: 'Apartamento' },
+  { name: 'identificacao', field: 'identifier', label: 'Identificação' },
+  { name: 'inquilino', field: 'residentReceiving', label: 'Coletor' },
+  { name: 'data_de_retirada', field: 'dateWithdrawn', label: 'Data de Retirada' },
 ];
 
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    this.getData();
   },
   setup() {
     return {
@@ -37,12 +37,14 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/Encomendas')
+    async getData() {
+      await getOrders()
         .then((response) => {
           const encomendasRetiradas = response?.data;
           encomendasRetiradas.forEach((encomendaRetirada) => {
-            if (encomendaRetirada.data_de_retirada !== '') {
+            // eslint-disable-next-line no-console
+            console.log(encomendaRetirada);
+            if (encomendaRetirada.dateWithdrawn !== null) {
               this.historico.push(encomendaRetirada);
             }
           });

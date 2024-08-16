@@ -9,7 +9,7 @@
       row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn label="Novo" icon="add" color="primary" to="/sindico/ControleUsuarios/create" replace/>
+        <q-btn label="Novo" icon="add" color="primary" to="controleUsuarios/create" replace/>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-btn
@@ -17,7 +17,7 @@
           round
           dense
           icon="edit"
-          @click="goEditPage(props.row)"
+          @click="redirectEditPage(props.row)"
           class="q-ml-sm"
         />
         <q-btn
@@ -44,7 +44,7 @@
           </q-card-main>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn color="red" label="deletar" @click="userDelete()" />
+          <q-btn color="red" label="deletar" @click="deleteUser(userID)" />
           <q-btn color="primary" label="fechar" @click="closeModal" />
         </q-card-actions>
       </q-card>
@@ -59,8 +59,8 @@ if (sessionStorage.type !== '98984512') {
   window.location.href = '/';
 }
 
-import axios from 'axios';
 import { Notify } from 'quasar';
+import { getUsers, deleteUserById } from '../services/userRequests';
 
 let userID;
 
@@ -88,7 +88,7 @@ const columns = [
     required: true,
     label: 'Nome',
     align: 'left',
-    field: (row) => row.nome,
+    field: (row) => row.name,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -106,7 +106,7 @@ const columns = [
     required: true,
     label: 'Grupo',
     align: 'left',
-    field: (row) => row.type_user,
+    field: (row) => row.groupType,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -118,14 +118,7 @@ const columns = [
 
 export default {
   beforeMount() {
-    let paginaAtual = window.location.href.toString();
-    paginaAtual = paginaAtual.split('/');
-    const ifPorteiro = paginaAtual.includes('porteiro');
-    if (ifPorteiro) {
-      this.chamarRotaPorteiro();
-    } else {
-      this.chamarRotaBackend();
-    }
+    this.getData();
   },
   setup() {
     return {
@@ -147,16 +140,15 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    goEditPage(row) {
-      userID = row.id;
-      console.log(userID);
-      this.$router.push(`/sindico/ControleUsuarios/edit/${userID}`);
+    redirectEditPage(row) {
+      // eslint-disable-next-line no-console
+      console.log(row.id);
+      this.$router.push(`/sindico/ControleUsuarios/edit/${row.id}`);
     },
-    userDelete() {
-      axios.delete(`http://localhost:3000/usuarios/${userID}`)
-        .then((response) => {
+    deleteUser() {
+      deleteUserById(userID)
+        .then(() => {
           window.location.reload();
-          console.log(response);
         })
         .catch((error) => {
           Notify.create({
@@ -166,27 +158,10 @@ export default {
           });
         });
     },
-    async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/usuarios')
+    async getData() {
+      await getUsers()
         .then((response) => {
           this.usuarios = response?.data;
-        })
-        .catch((error) => {
-          Notify.create({
-            color: 'negative',
-            message: `Um erro ocorreu: ${error.message}`,
-            position: 'top',
-          });
-        });
-    },
-    async chamarRotaPorteiro() {
-      await axios.get('http://localhost:3000/usuarios')
-        .then((response) => {
-          response.data.forEach((user) => {
-            if (user.type_user === 'inquilino') {
-              this.usuarios.push(user);
-            }
-          });
         })
         .catch((error) => {
           Notify.create({

@@ -13,8 +13,10 @@
 
 <script>
 import { VueMaskDirective } from 'vue-the-mask';
-import axios from 'axios';
 import { Notify } from 'quasar';
+import { createOrder } from 'src/services/orderRequests';
+import { getApartments } from 'src/services/apartmentRequests';
+import { getUsers } from 'src/services/userRequests';
 
 export default {
   name: 'FormPage',
@@ -36,13 +38,12 @@ export default {
 
   methods: {
     async obterApartamentos() {
-      await axios.get('http://localhost:3000/apartamentos')
+      await getApartments()
         .then((response) => {
           const dadosApartamentos = response.data;
           dadosApartamentos.forEach((dado) => {
-            // eslint-disable-next-line no-prototype-builtins
-            if (dado.hasOwnProperty('cpf_inquilino')) {
-              this.apartamentos.push(dado.numeracao_apartamento);
+            if (dado.tenant) {
+              this.apartamentos.push(dado.numApartment);
             }
           });
         })
@@ -55,11 +56,11 @@ export default {
         });
     },
     async obterAdministradores() {
-      await axios.get('http://localhost:3000/usuarios')
+      await getUsers()
         .then((response) => {
           const dadosUsuarios = response.data;
           dadosUsuarios.forEach((dado) => {
-            if (dado.type_user !== 'inquilino') {
+            if (dado.groupType === 'porteiro') {
               this.recebedores.push(dado.cpf);
             }
           });
@@ -82,29 +83,21 @@ export default {
       const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
       const day = currentDate.getDate().toString().padStart(2, '0');
 
-      const formattedDate = `${day}/${month}/${year}`;
+      const formattedDate = `${year}-${month}-${day}`;
 
-      function generateRandomNumber(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
       // eslint-disable-next-line prefer-const
       formData = {
-        id: generateRandomNumber(1, 5000),
-        identificacao: this.identificacao,
-        destinatario: this.apartamento,
-        recebedor: this.recebedor,
-        data_de_recebimento: formattedDate,
-        coletor: '',
-        data_de_retirada: '',
+        identifier: this.identificacao,
+        destinationApartment: this.apartamento,
+        collector: this.recebedor,
+        dateWithdrawn: null,
+        residentReceiving: null,
+        dateReceiving: formattedDate,
 
       };
 
-      axios.post('http://localhost:3000/Encomendas', formData)
-        .then((response) => {
-          console.log(response);
-          console.log(`/${specificWord}/ControleEncomendas`);
+      createOrder(formData)
+        .then(() => {
           this.$router.push(`/${specificWord}/ControleEncomendas`);
         })
         .catch((error) => {
