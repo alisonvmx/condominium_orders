@@ -9,7 +9,6 @@
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "startApi": "json-server --watch data.json",
     "build": "quasar build"
   },
   "dependencies": {

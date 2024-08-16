@@ -56,8 +56,8 @@ if (sessionStorage.type !== '98984512') {
   sessionStorage.clear();
   window.location.href = '/';
 }
-import axios from 'axios';
 import { Notify } from 'quasar';
+import { deleteApartmentById, getApartments } from '../services/apartmentRequests';
 
 let apartamentosID;
 
@@ -67,7 +67,7 @@ const columns = [
     required: true,
     label: 'N° Apartamento',
     align: 'left',
-    field: (row) => row.numeracao_apartamento,
+    field: (row) => row.numApartment,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -76,7 +76,16 @@ const columns = [
     required: true,
     label: 'Inquilino',
     align: 'left',
-    field: (row) => row.cpf_inquilino,
+    field: (row) => (row.tenant ? row.tenant : 'desocupado'),
+    format: (val) => `${val}`,
+    sortable: true,
+  },
+  {
+    name: 'st_available',
+    required: true,
+    label: 'Disponibilidade',
+    align: 'left',
+    field: (row) => (row.stAvailable ? 'disponível' : 'indisponível'),
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -87,7 +96,7 @@ const columns = [
 ];
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    this.getData();
   },
   setup() {
     return {
@@ -113,7 +122,7 @@ export default {
       this.$router.push(`/sindico/ControleApartamentos/edit/${apartamentosID}`);
     },
     userDelete() {
-      axios.delete(`http://localhost:3000/apartamentos/${apartamentosID}`)
+      deleteApartmentById(apartamentosID)
         .then((response) => {
           window.location.reload();
           // eslint-disable-next-line no-console
@@ -127,8 +136,8 @@ export default {
           });
         });
     },
-    async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/apartamentos')
+    async getData() {
+      await getApartments()
         .then((response) => {
           this.apartamentos = response?.data;
         })

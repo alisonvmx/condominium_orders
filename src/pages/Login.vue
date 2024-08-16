@@ -53,9 +53,9 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { getUsers } from '../services/userRequests';
 
 sessionStorage.clear();
 
@@ -86,10 +86,10 @@ async function getUser() {
   try {
     const tipoUsuario = user.perfil;
     if (tipoUsuario === 'inquilino') {
-      const response = await axios.get('http://localhost:3000/usuarios');
+      const response = await getUsers();
       const usuarios = response.data;
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.cpf && usuario.apartamento === user.password && usuario.type_user === 'inquilino') {
+        if (usuario.cpf === user.cpf && usuario.key === user.password && usuario.groupType === 'inquilino') {
           router.replace('/inquilino');
           localStorage.setItem('infoUsuario', user.password);
           sessionStorage.setItem('type', '99154724');
@@ -101,11 +101,11 @@ async function getUser() {
       }
     }
     if (tipoUsuario === 'porteiro') {
-      const response = await axios.get('http://localhost:3000/usuarios');
+      const response = await getUsers();
       const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'porteiro') {
+        if (usuario.cpf === user.cpf && usuario.key === user.password && usuario.groupType === 'porteiro') {
           router.replace('/porteiro');
           sessionStorage.setItem('type', '291196291196');
           sessionStorage.setItem('pag', 'logado');
@@ -116,11 +116,11 @@ async function getUser() {
       }
     }
     if (tipoUsuario === 'sindico') {
-      const response = await axios.get('http://localhost:3000/usuarios');
+      const response = await getUsers();
       const usuarios = response.data;
 
       usuarios.forEach((usuario) => {
-        if (usuario.cpf === user.cpf && usuario.chave_privada === user.password && usuario.type_user === 'sindico') {
+        if (usuario.cpf === user.cpf && usuario.key === user.password && usuario.groupType === 'sindico') {
           router.replace('/sindico');
           sessionStorage.setItem('type', '98984512');
           sessionStorage.setItem('pag', 'logado');

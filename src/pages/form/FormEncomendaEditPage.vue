@@ -7,7 +7,7 @@
       <q-input v-model="encomenda.identificacao" label="Descrição" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Perfil:' ]"/>
       <q-select v-model="encomenda.destinatario" :options="encomenda.destinatarios" label="Apartamento" mask="###.###.###-##" class="q-mb-md"/>
       <q-select v-model="encomenda.recebedor" :options="encomenda.recebedores" label="Recebedor" mask="###.###.###-##" class="q-mb-md"/>
-      <q-input v-model="encomenda.data_de_recebimento" label="Data de Recebimento" mask="##/##/####" class="q-mb-md" :rules="[ val => val.length >= 10 || 'Digite uma data válida:' ]"/>
+      <q-input v-model="encomenda.data_de_recebimento" label="Data de Recebimento" mask="####-##-##" class="q-mb-md" :rules="[ val => val.length >= 10 || 'Digite uma data válida:' ]"/>
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
@@ -15,16 +15,19 @@
 
 <script>
 import { VueMaskDirective } from 'vue-the-mask';
-import axios from 'axios';
 import { Notify } from 'quasar';
 import { useRoute } from 'vue-router';
+import { getUsers } from 'src/services/userRequests';
+import { getOrderById, updateOrder } from '../../services/orderRequests';
+import { getApartments } from '../../services/apartmentRequests';
 
 export default {
   name: 'FormPage',
   directives: { mask: VueMaskDirective },
   beforeMount() {
-    this.obterApartamentos();
-    this.chamarRotaBackend();
+    this.getApartmentsValid();
+    this.getReceivings();
+    this.getData();
   },
   data() {
     return {
@@ -40,12 +43,14 @@ export default {
     };
   },
   methods: {
-    async obterApartamentos() {
-      await axios.get('http://localhost:3000/apartamentos')
+    async getApartmentsValid() {
+      await getApartments()
         .then((response) => {
           const dadosApartamentos = response.data;
           dadosApartamentos.forEach((dado) => {
-            this.encomenda.destinatarios.push(dado.numeracao_apartamento);
+            if (dado.tenant !== null) {
+              this.encomenda.destinatarios.push(dado.numApartment);
+            }
           });
         })
         .catch((error) => {
@@ -53,6 +58,17 @@ export default {
             color: 'negative',
             message: `Um erro ocorreu: ${error.message}`,
             position: 'top',
+          });
+        });
+    },
+    async getReceivings() {
+      await getUsers()
+        .then((response) => {
+          const dadosUsers = response.data;
+          dadosUsers.forEach((dado) => {
+            if (dado.groupType === 'porteiro') {
+              this.encomenda.recebedores.push(dado.cpf);
+            }
           });
         });
     },
@@ -65,16 +81,15 @@ export default {
 
       // eslint-disable-next-line prefer-const
       formData = {
-        id: this.id,
-        identificacao: this.encomenda.identificacao,
-        destinatario: this.encomenda.destinatario,
-        coletor: '',
-        recebedor: this.encomenda.recebedor,
-        data_de_recebimento: this.encomenda.data_de_recebimento,
-        data_de_retirada: '',
+        identifier: this.encomenda.identificacao,
+        destinationApartment: this.encomenda.destinatario,
+        residentReceiving: null,
+        collector: this.encomenda.recebedor,
+        dateReceiving: this.encomenda.data_de_recebimento,
+        dateWhithdrawn: null,
       };
 
-      axios.put(`http://localhost:3000/encomendas/${id}`, formData)
+      updateOrder(id, formData)
         .then((response) => {
           // eslint-disable-next-line no-console
           console.log(response);
@@ -89,17 +104,17 @@ export default {
         });
     },
 
-    async chamarRotaBackend() {
+    async getData() {
       const route = useRoute();
       const { id } = route.params;
 
-      await axios.get(`http://localhost:3000/encomendas/${id}`)
+      await getOrderById(id)
         .then((response) => {
           this.encomenda.id = response.data.id;
-          this.encomenda.identificacao = response.data.identificacao;
-          this.encomenda.destinatario = response.data.destinatario;
-          this.encomenda.recebedor = response.data.recebedor;
-          this.encomenda.data_de_recebimento = response.data.data_de_recebimento;
+          this.encomenda.identificacao = response.data.identifier;
+          this.encomenda.destinatario = response.data.destinationApartment;
+          this.encomenda.recebedor = response.data.collector;
+          this.encomenda.data_de_recebimento = response.data.dateReceiving;
         })
         .catch((error) => {
           Notify.create({

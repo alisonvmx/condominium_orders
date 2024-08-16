@@ -5,23 +5,23 @@
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="apartamento.id" label="ID" class="q-mb-md" disable=""/>
       <q-input v-model="apartamento.numeracao_apartamento" label="N Apartamento" class="q-mb-md" :rules="[ val => val.length >= 3 && val.length <=4 || 'Digite um apartamento válido' ]"/>
-      <q-select v-model="apartamento.inquilino" :options="apartamento.inquilinos" label="CPF Inquilino" class="q-mb-md"  mask="###.###.###-##"/>
+      <q-select v-model="apartamento.inquilino" :options="apartamento.inquilinos" label="CPF Inquilino" class="q-mb-md"/>
+      <q-select v-model="apartamento.available" :options="apartamento.availableOptions" label="Disponibilidade" class="q-mb-md"/>
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md" />
     </q-form>
   </q-page>
 </template>
 
 <script>
-import { VueMaskDirective } from 'vue-the-mask';
-import axios from 'axios';
 import { Notify } from 'quasar';
+import { getApartmentById, updateApartment } from 'src/services/apartmentRequests';
+import { getUsers } from 'src/services/userRequests';
 import { useRoute } from 'vue-router';
 
 export default {
   identificacao: 'FormPage',
-  directives: { mask: VueMaskDirective },
   beforeMount() {
-    this.chamarRotaBackend();
+    this.getData();
     this.obterInquilinos();
   },
   data() {
@@ -29,8 +29,10 @@ export default {
       apartamento: {
         id: '',
         numeracao_apartamento: '',
-        inquilino: 'Selecione o cpf do inquilino:',
-        inquilinos: [],
+        inquilino: '',
+        inquilinos: ['Desocupado'],
+        available: null,
+        availableOptions: ['Disponível', 'Indisponível'],
       },
     };
   },
@@ -45,14 +47,13 @@ export default {
       // eslint-disable-next-line prefer-const
       formData = {
         id: this.id,
-        numeracao_apartamento: this.apartamento.numeracao_apartamento,
-        cpf_inquilino: this.apartamento.inquilino,
+        numApartment: this.apartamento.numeracao_apartamento,
+        tenant: this.apartamento.inquilino === 'Desocupado' ? null : this.apartamento.inquilino,
+        stAvailable: this.apartamento.available === 'Disponível',
       };
 
-      axios.put(`http://localhost:3000/apartamentos/${id}`, formData)
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          console.log(response);
+      updateApartment(id, formData)
+        .then(() => {
           this.$router.push(`/${specificWord}/ControleApartamentos`);
         })
         .catch((error) => {
@@ -63,15 +64,17 @@ export default {
           });
         });
     },
-    async chamarRotaBackend() {
+    async getData() {
       const route = useRoute();
       const { id } = route.params;
 
-      await axios.get(`http://localhost:3000/apartamentos/${id}`)
+      await getApartmentById(id)
         .then((response) => {
-          this.apartamento.id = response.data.id;
-          this.apartamento.numeracao_apartamento = response.data.numeracao_apartamento;
-          this.apartamento.inquilino = response.data.cpf_inquilino;
+          const { data } = response;
+          this.apartamento.id = data.id;
+          this.apartamento.numeracao_apartamento = data.numApartment;
+          this.apartamento.available = data.stAvailable ? 'Disponível' : 'Indisponível';
+          this.apartamento.inquilino = data.tenant || 'Desocupado';
         })
         .catch((error) => {
           Notify.create({
@@ -82,13 +85,12 @@ export default {
         });
     },
     async obterInquilinos() {
-      await axios.get('http://localhost:3000/usuarios/')
+      await getUsers()
         .then((response) => {
-          const dados = response.data;
-          dados.forEach((dado) => {
-            if (dado.type_user === 'inquilino') {
-              this.apartamento.inquilinos.push(dado.cpf);
-            }
+          // eslint-disable-next-line no-console
+          console.log(response);
+          response.data.forEach((dado) => {
+            this.apartamento.inquilinos.push(dado.cpf);
           });
         })
         .catch((error) => {

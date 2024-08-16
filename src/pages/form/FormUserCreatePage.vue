@@ -5,19 +5,19 @@
     <q-form @submit="handleSubmit" class="q-gutter-md q-mt-lg">
       <q-input v-model="name" label="Name" class="q-mb-md" :rules="[ val => val.length >= 2 || 'Digite um nome:' ]"/>
       <q-input v-model="cpf" mask="###.###.###-##" label="CPF" class="q-mb-md" :rules="[ val => val.length >= 11 || 'Digite um CPF válido:' ]"/>
-      <q-select v-if="group == 'inquilino'" v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
-      <q-input v-else-if="group !== 'inquilino'" v-model="chave_privada" label="Chave Privada" class="q-mb-md" :rules="[ val => val.length >= 6 && val.length <= 12|| 'Digite uma Senha válida:' ]"/>
+      <q-select v-model="apartamento" :options="apartamentos" label="Apartamento" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Apartamento:' ]"/>
+      <q-input v-model="chave_privada" label="Chave Privada" class="q-mb-md" maxlength="8" :rules="[ val => val.length == 8 || 'Digite uma Senha válida:' ]"/>
       <q-select v-model="group" :options="groups" label="Grupo" class="q-mb-md" :rules="[ val => val != '' || 'Selecione um Perfil:' ]"/>
-
       <q-btn type="submit" label="Submit" color="primary" class="q-mt-md"/>
     </q-form>
   </q-page>
 </template>
 
 <script>
-import { VueMaskDirective } from 'vue-the-mask';
 import axios from 'axios';
 import { Notify } from 'quasar';
+import { createUser } from '../../services/userRequests';
+import { getApartments } from '../../services/apartmentRequests';
 
 const options = ['inquilino', 'sindico', 'porteiro',
 ];
@@ -25,7 +25,6 @@ const aparts = [];
 
 export default {
   name: 'FormPage',
-  directives: { mask: VueMaskDirective },
   beforeMount() {
     this.obterApartamentos();
   },
@@ -42,41 +41,31 @@ export default {
   },
 
   methods: {
+
     handleSubmit() {
-      let formData;
-      const url = window.location.href;
-      const parts = url.split('/');
-      const specificWord = parts[parts.length - 3];
+      const formData = {
+        name: this.name,
+        cpf: this.cpf,
+        key: this.chave_privada,
+        groupType: this.group,
+        apartment: this.apartamento,
+      };
 
-      function generateRandomNumber(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
-      if (this.group === 'inquilino') {
-        formData = {
-          id: generateRandomNumber(1, 5000),
-          nome: this.name,
-          cpf: this.cpf,
-          apartamento: this.apartamento,
-          type_user: this.group,
-
-        };
-      } else {
-        formData = {
-          id: generateRandomNumber(1, 5000),
-          nome: this.name,
-          cpf: this.cpf,
-          chave_privada: this.chave_privada,
-          type_user: this.group,
-        };
-      }
-      axios.post('http://localhost:3000/usuarios', formData)
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          console.log(response);
-          this.atualizarApartamento(this.cpf, this.apartamento);
-          this.$router.push(`/${specificWord}/ControleUsuarios`);
+      createUser(formData)
+        .then(() => {
+          // Atualiza o apartamento e, após a atualização, redireciona para controleUsuarios
+          this.atualizarApartamento(this.cpf, this.apartamento)
+            .then(() => {
+              // Redireciona para a rota controleUsuarios
+              this.$router.push('/sindico/controleUsuarios');
+            })
+            .catch((error) => {
+              Notify.create({
+                color: 'negative',
+                message: `Erro ao atualizar apartamento: ${error.message}`,
+                position: 'top',
+              });
+            });
         })
         .catch((error) => {
           Notify.create({
@@ -86,14 +75,14 @@ export default {
           });
         });
     },
+
     async obterApartamentos() {
-      await axios.get('http://localhost:3000/apartamentos')
+      await getApartments()
         .then((response) => {
-          const dadosApartamentos = response.data;
-          dadosApartamentos.forEach((dado) => {
+          response.data.forEach((dado) => {
             // eslint-disable-next-line no-prototype-builtins
-            if (dado.cpf_inquilino === 'Disponivel') {
-              this.apartamentos.push(dado.numeracao_apartamento);
+            if (dado.stAvailable === true && dado.tenant === null) {
+              this.apartamentos.push(dado.numApartment);
             }
             aparts.push(dado);
           });
@@ -106,10 +95,13 @@ export default {
           });
         });
     },
+
     async atualizarApartamento(cpf, apartamento) {
       let formData;
       function obterIdApartamento() {
         let varId;
+        // eslint-disable-next-line no-console
+        console.log('aparts', aparts);
         aparts.forEach((apart) => {
           if (apart.numeracao_apartamento === apartamento) {
             varId = apart.id;
@@ -140,6 +132,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style>

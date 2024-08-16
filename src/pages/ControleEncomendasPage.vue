@@ -56,8 +56,9 @@ if (sessionStorage.type !== '98984512') {
   sessionStorage.clear();
   window.location.href = '/';
 }
-import axios from 'axios';
+
 import { Notify } from 'quasar';
+import { getOrders, deleteOrderById } from '../services/orderRequests';
 
 let encomendasID;
 
@@ -67,7 +68,7 @@ const columns = [
     required: true,
     label: 'Identificação',
     align: 'left',
-    field: (row) => row.identificacao,
+    field: (row) => row.identifier,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -76,7 +77,7 @@ const columns = [
     required: true,
     label: 'Destinatario',
     align: 'left',
-    field: (row) => row.destinatario,
+    field: (row) => row.destinationApartment,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -85,7 +86,7 @@ const columns = [
     required: true,
     label: 'Coletor',
     align: 'left',
-    field: (row) => row.coletor,
+    field: (row) => row.collector,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -94,7 +95,7 @@ const columns = [
     required: true,
     label: 'Recebedor',
     align: 'left',
-    field: (row) => row.recebedor,
+    field: (row) => (row.residentReceiving === null ? 'A Definir' : row.residentReceiving),
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -103,7 +104,7 @@ const columns = [
     required: true,
     label: 'Data Recebimento',
     align: 'left',
-    field: (row) => row.data_de_recebimento,
+    field: (row) => row.dateReceiving,
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -112,7 +113,7 @@ const columns = [
     required: true,
     label: 'Data Retirada',
     align: 'left',
-    field: (row) => row.data_de_retirada,
+    field: (row) => (row.dateWithdrawn === null ? 'A retirar' : row.dateWithdrawn),
     format: (val) => `${val}`,
     sortable: true,
   },
@@ -124,7 +125,7 @@ const columns = [
 
 export default {
   beforeMount() {
-    this.chamarRotaBackend();
+    this.getData();
   },
   setup() {
     return {
@@ -150,11 +151,9 @@ export default {
       this.$router.push(`/sindico/ControleEncomendas/edit/${encomendasID}`);
     },
     userDelete() {
-      axios.delete(`http://localhost:3000/encomendas/${encomendasID}`)
-        .then((response) => {
+      deleteOrderById(encomendasID)
+        .then(() => {
           window.location.reload();
-          // eslint-disable-next-line no-console
-          console.log(response);
         })
         .catch((error) => {
           Notify.create({
@@ -164,8 +163,8 @@ export default {
           });
         });
     },
-    async chamarRotaBackend() {
-      await axios.get('http://localhost:3000/encomendas')
+    async getData() {
+      await getOrders()
         .then((response) => {
           this.encomendas = response?.data;
         })
